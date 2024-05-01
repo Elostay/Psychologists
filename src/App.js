@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import Home from "./components/Home";
+import Psychologists from "./components/Psychologists";
+import SharedLayout from "./components/SharedLayout";
+import Favourites from "./components/Favourites";
+// import { AuthProvider } from "./auth";
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Routes>
+        <Route path="/" element={<SharedLayout />}>
+          <Route index element={<Home />} />
+          <Route path="psychologists" element={<Psychologists />} />
+          <Route path="favourites" element={<Favourites />} />
+        </Route>
+      </Routes>
+      {/* <AuthProvider/> */}
     </div>
   );
-}
+};
 
 export default App;
