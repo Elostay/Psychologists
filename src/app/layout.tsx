@@ -1,5 +1,10 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
+import App from './components/App';
+import Header from './components/Header';
+import { ReactNode } from 'react';
+import { Provider } from 'react-redux';
+import { store } from '@/redux/store';
 
 const interBold = Inter({ weight: '700', subsets: ['latin'] });
 const interSemiBold = Inter({ weight: '600', subsets: ['latin'] });
@@ -21,14 +26,18 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+interface LayoutProps {
+  children: ReactNode;
+}
+export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en">
-      <body className={fontClasses}>{children}</body>
+      <body className={`${fontClasses} container mx-auto p-4 `}>
+        <App>
+          <Header />
+          {children}
+        </App>
+      </body>
     </html>
   );
 }
