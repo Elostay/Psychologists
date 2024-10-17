@@ -8,6 +8,7 @@ interface ButtonProps {
   onClick?: () => void;
   color?: string;
   border?: boolean;
+  className?: string;
 }
 
 const Button: FC<ButtonProps> = ({
@@ -16,6 +17,7 @@ const Button: FC<ButtonProps> = ({
   type,
   color,
   border,
+  className,
 }) => {
   return (
     <button
@@ -24,7 +26,8 @@ const Button: FC<ButtonProps> = ({
         'px-10 py-[14px] font-medium rounded-[30px] ',
         background,
         color,
-        border && 'border border-gray-400'
+        border && 'border border-gray-400',
+        className
       )}
     >
       {children}

@@ -32,7 +32,7 @@ interface LayoutProps {
 export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en">
-      <body className={`${fontClasses} container mx-auto p-4 `}>
+      <body className={`${fontClasses} text-primary-black overflow-x-hidden`}>
         <App>
           <Header />
           {children}

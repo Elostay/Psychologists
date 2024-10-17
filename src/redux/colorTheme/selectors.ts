@@ -1,10 +1,6 @@
-interface ColorThemeState {
-  value: string;
-}
-
 interface RootState {
-  theme: ColorThemeState;
+  colorTheme: { value: string };
 }
 
-export const selectColorThemeValue = (state: any) =>
-  state.theme?.value ?? 'orange';
+export const selectColorThemeValue = (state: RootState) =>
+  state.colorTheme.value;
