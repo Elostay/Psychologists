@@ -18,9 +18,11 @@ const Button: FC<ButtonProps> = ({
   color,
   border,
   className,
+  onClick,
 }) => {
   return (
     <button
+      onClick={onClick}
       type={type}
       className={clsx(
         'px-10 py-[14px] font-medium rounded-[30px] ',

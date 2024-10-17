@@ -8,11 +8,15 @@ import clsx from 'clsx';
 import Arrow from './components/Icons/Arrow';
 import CheckMark from './components/Icons/CheckMark';
 import People from './components/Icons/People';
+import Modal from './components/Modal';
+import useModal from '@/hooks/useModal';
 interface HomeProps {}
 
 const HomeName: FC<HomeProps> = () => {
   const colorTheme = useSelector(selectColorThemeValue);
   const [checkMarkColor, setCheckMarkColor] = useState('#FC832C');
+
+  const modalProps = useModal();
 
   useEffect(() => {
     if (colorTheme === 'orange') setCheckMarkColor('#FC832C');
@@ -21,7 +25,7 @@ const HomeName: FC<HomeProps> = () => {
   }, [colorTheme]);
 
   return (
-    <div className="container mx-auto p-4 ">
+    <main className="container mx-auto p-4 ">
       <div className="-tracking-0.02 flex justify-between items-center pt-[102px] relative z-50">
         <div className="max-w-[595px]">
           <h1 className="font-semibold text-[80px] leading-102 ">
@@ -100,7 +104,16 @@ const HomeName: FC<HomeProps> = () => {
           colorTheme === 'green' && 'bg-green-gradient'
         )}
       ></div>
-    </div>
+      <Button
+        type="button"
+        className="relative z-50"
+        background="bg-violet"
+        onClick={modalProps.onOpen}
+      >
+        Open Modal
+      </Button>
+      <Modal {...modalProps}>hihihihi</Modal>
+    </main>
   );
 };
 

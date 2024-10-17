@@ -43,3 +43,6 @@ fieldset {
 	margin: 0;
 	border: none;
 }
+body {
+	scrollbar-gutter: stable;
+}

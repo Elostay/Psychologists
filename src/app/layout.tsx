@@ -3,8 +3,6 @@ import { Inter } from 'next/font/google';
 import App from './components/App';
 import Header from './components/Header';
 import { ReactNode } from 'react';
-import { Provider } from 'react-redux';
-import { store } from '@/redux/store';
 
 const interBold = Inter({ weight: '700', subsets: ['latin'] });
 const interSemiBold = Inter({ weight: '600', subsets: ['latin'] });
@@ -37,6 +35,7 @@ export default function RootLayout({ children }: LayoutProps) {
           <Header />
           {children}
         </App>
+        <div id="modals-root"></div>
       </body>
     </html>
   );
