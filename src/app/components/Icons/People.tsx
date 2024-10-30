@@ -1,12 +1,7 @@
+import { SvgProps } from '@/interfaces/interfaces';
 import { FC } from 'react';
 
-interface PeopleProps {
-  width?: number;
-  height?: number;
-  fill?: string;
-}
-
-const People: FC<PeopleProps> = ({ fill = 'none', width, height }) => {
+const People: FC<SvgProps> = ({ fill = 'none', width, height }) => {
   return (
     <svg
       width={width}

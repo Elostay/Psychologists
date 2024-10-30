@@ -1,10 +1,7 @@
+import { SvgProps } from '@/interfaces/interfaces';
 import { FC } from 'react';
 
-interface CheckMarkProps {
-  fill?: string;
-}
-
-const CheckMark: FC<CheckMarkProps> = ({ fill = 'none' }) => {
+const CheckMark: FC<SvgProps> = ({ fill = 'none' }) => {
   return (
     <svg
       width="20"

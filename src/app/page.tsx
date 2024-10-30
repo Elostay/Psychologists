@@ -10,6 +10,7 @@ import CheckMark from './components/Icons/CheckMark';
 import People from './components/Icons/People';
 import Modal from './components/Modal';
 import useModal from '@/hooks/useModal';
+
 interface HomeProps {}
 
 const HomeName: FC<HomeProps> = () => {
@@ -24,6 +25,20 @@ const HomeName: FC<HomeProps> = () => {
     if (colorTheme === 'green') setCheckMarkColor('#54be96');
   }, [colorTheme]);
 
+  //   const saveData = async () => {
+  //     const db = getDatabase(app);
+
+  //     array.map(el => {
+  //       const newDocRef = push(ref(db, 'psychologists'));
+  //       set(newDocRef, el)
+  //         .then(() => {
+  //           console.log('data saved successfully');
+  //         })
+  //         .catch(error => {
+  //           console.log('error', error.message);
+  //         });
+  //     });
+  //   };
   return (
     <main className="container mx-auto p-4 ">
       <div className="-tracking-0.02 flex justify-between items-center pt-[102px] relative z-50">
@@ -104,6 +119,9 @@ const HomeName: FC<HomeProps> = () => {
           colorTheme === 'green' && 'bg-green-gradient'
         )}
       ></div>
+      {/* <button type="button" className="z-50 relative" onClick={saveData}>
+        firebase
+      </button> */}
       <Button
         type="button"
         className="relative z-50"

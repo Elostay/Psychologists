@@ -30,7 +30,9 @@ interface LayoutProps {
 export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en">
-      <body className={`${fontClasses} text-primary-black overflow-x-hidden`}>
+      <body
+        className={`${fontClasses} text-primary-black overflow-x-hidden bg-[#f3f3f3]`}
+      >
         <App>
           <Header />
           {children}

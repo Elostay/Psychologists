@@ -1,8 +1,7 @@
+import { SvgProps } from '@/interfaces/interfaces';
 import { FC } from 'react';
 
-interface ArrowProps {}
-
-const Arrow: FC<ArrowProps> = () => {
+const Arrow: FC<SvgProps> = () => {
   return (
     <svg
       width="15"

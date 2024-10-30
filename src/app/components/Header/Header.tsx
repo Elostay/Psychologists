@@ -27,47 +27,49 @@ const Header: FC<HeaderProps> = () => {
   };
 
   return (
-    <header className="container mx-auto p-4 relative z-50">
-      <div className="flex justify-between items-center ">
-        <div className="flex gap-[130px] ">
-          <Link href="/">
-            <span
-              className={clsx(
-                colorTheme === 'orange' && 'text-primary-orange',
-                colorTheme === 'blue' && 'text-primary-blue',
-                colorTheme === 'green' && 'text-primary-green'
-              )}
-            >
-              psychologists.
-            </span>
-            services
-          </Link>
-          <div className="flex gap-10">
-            <Link href="/">Home</Link>
-            <Link href="/psychologists">Psychologists</Link>
+    <header className=" p-4 border-b border-gray-300">
+      <div className="container mx-auto relative z-50">
+        <div className="flex justify-between items-center ">
+          <div className="flex gap-[130px] ">
+            <Link href="/">
+              <span
+                className={clsx(
+                  colorTheme === 'orange' && 'text-primary-orange',
+                  colorTheme === 'blue' && 'text-primary-blue',
+                  colorTheme === 'green' && 'text-primary-green'
+                )}
+              >
+                psychologists.
+              </span>
+              services
+            </Link>
+            <div className="flex gap-10">
+              <Link href="/">Home</Link>
+              <Link href="/psychologists">Psychologists</Link>
+            </div>
           </div>
-        </div>
 
-        <div className="flex gap-5">
-          {colors.map(color => (
-            <button
-              key={color}
-              value={color}
-              className={clsx(
-                'w-5 h-5 rounded-full transition-transform duration-300 ',
-                colorClassMap[color],
-                colorTheme === color ? 'scale-150' : ''
-              )}
-              onClick={changeColorTheme}
-            ></button>
-          ))}
-        </div>
+          <div className="flex gap-5">
+            {colors.map(color => (
+              <button
+                key={color}
+                value={color}
+                className={clsx(
+                  'w-5 h-5 rounded-full transition-transform duration-300 ',
+                  colorClassMap[color],
+                  colorTheme === color ? 'scale-150' : ''
+                )}
+                onClick={changeColorTheme}
+              ></button>
+            ))}
+          </div>
 
-        <div className="flex gap-2 font-medium">
-          <Button border={true}>Log In</Button>
-          <Button color="text-white" background={`bg-primary-${colorTheme}`}>
-            Registration
-          </Button>
+          <div className="flex gap-2 font-medium">
+            <Button border={true}>Log In</Button>
+            <Button color="text-white" background={`bg-primary-${colorTheme}`}>
+              Registration
+            </Button>
+          </div>
         </div>
       </div>
     </header>
