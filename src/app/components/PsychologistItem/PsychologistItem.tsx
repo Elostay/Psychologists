@@ -70,10 +70,10 @@ const PsychologistItem: FC<PsychologistItemProps> = ({ data }) => {
               <p>Rating: {rating}</p>
             </div>
             <p>|</p>
-            <p className="flex gap-2">
+            <div className="flex gap-2">
               Price/1 hour:
               <p className={moneyColor}>{price_per_hour}$</p>
-            </p>
+            </div>
             <button type="button" onClick={handleFavorite}>
               {
                 <Heart
