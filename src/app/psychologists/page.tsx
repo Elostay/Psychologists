@@ -1,25 +1,20 @@
 'use client';
 
-import {
-  ChangeEvent,
-  FC,
-  MouseEvent,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { FC, useEffect, useState } from 'react';
 import Button from '../components/Button';
-import Image from 'next/image';
-import fetchData from '@/helpers/fetchData';
+
 import { Psychologist } from '@/interfaces/interfaces';
 import PsychologistsList from '../components/PsychologistsList';
-import clsx from 'clsx';
-import { useSelector } from 'react-redux';
-import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
 import CustomSelect from '../components/CustomSelect';
+import Loading from '../loading';
+import usePaginatedData from '@/helpers/fetchData';
 
 interface PsychologistsProps {}
+
+//!TODO pagination,responsive layout, favorite
+//?Idea color theme save on user profile
+//!FIXME use filter->load more jump page
+//!FIXME //@ts-ignore delete
 
 const query = {
   sortBy: 'name',
@@ -29,13 +24,19 @@ const query = {
 };
 
 const Psychologists: FC<PsychologistsProps> = () => {
-  const colorTheme = useSelector(selectColorThemeValue);
-
   const [psychologistsArray, setPsychologistsArray] = useState<Psychologist[]>(
     []
   );
 
-  const isFetched = useRef(false);
+  const { data, fetchData, hasMore } = usePaginatedData();
+  const loadMore = () => {
+    if (hasMore) {
+      fetchData();
+    }
+  };
+  useEffect(() => {
+    setPsychologistsArray(data);
+  }, [data]);
 
   const handleFilter = (filter: string) => {
     switch (filter) {
@@ -104,91 +105,30 @@ const Psychologists: FC<PsychologistsProps> = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchPsychologists = async () => {
-      const data = await fetchData();
-      const sortedData = data?.sort((a, b) => {
-        //@ts-ignore
-        const nameA = a.name.replace(/^Dr\.?\s+/i, '');
-        //@ts-ignore
-        const nameB = b.name.replace(/^Dr\.?\s+/i, '');
-        return nameA.localeCompare(nameB);
-      });
-
-      setPsychologistsArray(sortedData as Psychologist[]);
-      isFetched.current = true;
-    };
-
-    if (!isFetched.current) {
-      fetchPsychologists();
-    }
-  }, []);
-
   return (
-    <div className="container mx-auto p-4 ">
-      <div>
-        <p className="mb-2 opacity-50 font-medium">Filters</p>
-        {/* <div className="relative">
-          <select
-            className={clsx(
-              'py-3 px-5 mb-8 rounded-3xl text-primary-white outline-none',
-              colorTheme === 'orange' && 'bg-primary-orange',
-              colorTheme === 'green' && 'bg-primary-green',
-              colorTheme === 'blue' && 'bg-primary-blue'
-            )}
-            onChange={handleFilter}
-            name="filter"
-            id="filter"
-          >
-            <option
-              className="bg-primary-white text-black opacity-50 rounded-3xl mt-9"
-              value="a-z"
-            >
-              A to Z
-            </option>
-            <option
-              className="bg-primary-white text-black opacity-50"
-              value="z-a"
-            >
-              Z to A
-            </option>
-            <option
-              className="bg-primary-white text-black opacity-50"
-              value="high-low"
-            >
-              High-Low Price
-            </option>
-            <option
-              className="bg-primary-white text-black opacity-50"
-              value="low-hight"
-            >
-              Low-High Price
-            </option>
-            <option
-              className="bg-primary-white text-black opacity-50"
-              value="popular"
-            >
-              Popular
-            </option>
-            <option
-              className="bg-primary-white text-black opacity-50"
-              value="unpopular"
-            >
-              Not popular
-            </option>
-          </select>
-          <div className="absolute top-3 left-28 pointer-events-none ">
-            <ChevronDown />
+    <div>
+      {psychologistsArray.length > 0 ? (
+        <div className="container mx-auto p-4 ">
+          <div>
+            <p className="mb-2 opacity-50 font-medium">Filters</p>
+            <CustomSelect handleFilter={handleFilter} />
           </div>
-        </div> */}
-        <CustomSelect handleFilter={handleFilter} />
-      </div>
-      <PsychologistsList data={psychologistsArray} />
-      <div className="flex justify-center">
-        <Button background="bg-primary-orange" color="text-primary-white">
-          Load more
-        </Button>
-      </div>
+          <PsychologistsList data={psychologistsArray} />
+          <div className="flex justify-center">
+            {hasMore && (
+              <Button
+                background="bg-primary-orange"
+                color="text-primary-white"
+                onClick={loadMore}
+              >
+                Load more
+              </Button>
+            )}
+          </div>
+        </div>
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 };

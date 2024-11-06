@@ -10,7 +10,7 @@ const PsychologistsList: FC<PsychologistsListProps> = ({ data }) => {
     <ul>
       {data ? (
         data.map((psycholog: Psychologist) => (
-          <PsychologistItem key={psycholog.name} data={psycholog} />
+          <PsychologistItem key={psycholog.id} data={psycholog} />
         ))
       ) : (
         <p>Loading...</p>

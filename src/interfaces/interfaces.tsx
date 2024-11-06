@@ -4,6 +4,7 @@ export interface PsychologistReviews {
   comment: string;
 }
 export interface Psychologist {
+  id: string;
   name: string;
   avatar_url: string;
   experience: string;

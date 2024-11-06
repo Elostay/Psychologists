@@ -1,30 +1,15 @@
 'use client';
 import clsx from 'clsx';
-import { FC, MouseEvent } from 'react';
+import { FC } from 'react';
 import Button from '../Button';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
-import { setColorThemeAction } from '@/redux/colorTheme/colorThemeSlice';
+
 import Link from 'next/link';
 interface HeaderProps {}
 
-const colors = ['orange', 'green', 'blue'];
-
-const colorClassMap: { [key: string]: string } = {
-  orange: 'bg-primary-orange',
-  green: 'bg-primary-green',
-  blue: 'bg-primary-blue',
-};
-
 const Header: FC<HeaderProps> = () => {
   const colorTheme = useSelector(selectColorThemeValue);
-  const dispatch = useDispatch();
-
-  const changeColorTheme = (e: MouseEvent<HTMLButtonElement>) => {
-    const color = e.currentTarget.value;
-
-    dispatch(setColorThemeAction(color));
-  };
 
   return (
     <header className=" p-4 border-b border-gray-300">
@@ -47,21 +32,6 @@ const Header: FC<HeaderProps> = () => {
               <Link href="/">Home</Link>
               <Link href="/psychologists">Psychologists</Link>
             </div>
-          </div>
-
-          <div className="flex gap-5">
-            {colors.map(color => (
-              <button
-                key={color}
-                value={color}
-                className={clsx(
-                  'w-5 h-5 rounded-full transition-transform duration-300 ',
-                  colorClassMap[color],
-                  colorTheme === color ? 'scale-150' : ''
-                )}
-                onClick={changeColorTheme}
-              ></button>
-            ))}
           </div>
 
           <div className="flex gap-2 font-medium">

@@ -8,6 +8,7 @@ import clsx from 'clsx';
 import Arrow from './components/Icons/Arrow';
 import CheckMark from './components/Icons/CheckMark';
 import People from './components/Icons/People';
+import ChangeColorThemeModal from './components/ChangeColorThemeModal';
 import Modal from './components/Modal';
 import useModal from '@/hooks/useModal';
 
@@ -16,7 +17,6 @@ interface HomeProps {}
 const HomeName: FC<HomeProps> = () => {
   const colorTheme = useSelector(selectColorThemeValue);
   const [checkMarkColor, setCheckMarkColor] = useState('#FC832C');
-
   const modalProps = useModal();
 
   useEffect(() => {
@@ -66,6 +66,7 @@ const HomeName: FC<HomeProps> = () => {
             className="flex items-center gap-5"
             background={`bg-primary-${colorTheme}`}
             color="text-white"
+            onClick={modalProps.onOpen}
           >
             <p>Get started</p>
             <Arrow />
@@ -122,15 +123,8 @@ const HomeName: FC<HomeProps> = () => {
       {/* <button type="button" className="z-50 relative" onClick={saveData}>
         firebase
       </button> */}
-      <Button
-        type="button"
-        className="relative z-50"
-        background="bg-violet"
-        onClick={modalProps.onOpen}
-      >
-        Open Modal
-      </Button>
       <Modal {...modalProps}>hihihihi</Modal>
+      <ChangeColorThemeModal />
     </main>
   );
 };
