@@ -1,15 +1,30 @@
 'use client';
 import clsx from 'clsx';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import Button from '../Button';
 import { useSelector } from 'react-redux';
 import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
-
 import Link from 'next/link';
+import Modal from '../Modal';
+import useModal from '@/hooks/useModal';
+import ModalForm from '../Form';
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
   const colorTheme = useSelector(selectColorThemeValue);
+  const modalProps = useModal();
+
+  const [isRegistration, setIsRegistration] = useState(false);
+
+  const handleRegistration = () => {
+    modalProps.onOpen();
+    setIsRegistration(true);
+  };
+
+  const handleLogIn = () => {
+    modalProps.onOpen();
+    setIsRegistration(false);
+  };
 
   return (
     <header className=" p-4 border-b border-gray-300">
@@ -35,13 +50,37 @@ const Header: FC<HeaderProps> = () => {
           </div>
 
           <div className="flex gap-2 font-medium">
-            <Button border={true}>Log In</Button>
-            <Button color="text-white" background={`bg-primary-${colorTheme}`}>
+            <Button border={true} onClick={handleLogIn}>
+              Log In
+            </Button>
+            <Button
+              onClick={handleRegistration}
+              color="text-white"
+              background={`bg-primary-${colorTheme}`}
+            >
               Registration
             </Button>
           </div>
         </div>
       </div>
+      <Modal {...modalProps}>
+        {isRegistration ? (
+          <ModalForm
+            header={'Registration'}
+            text={
+              'Thank you for your interest in our platform! In order to register, we need some information. Please provide us with the following information.'
+            }
+            isRegistration
+          />
+        ) : (
+          <ModalForm
+            header={'Log In'}
+            text={
+              'Welcome back! Please enter your credentials to access your account and continue your search for a psychologist.'
+            }
+          />
+        )}
+      </Modal>
     </header>
   );
 };

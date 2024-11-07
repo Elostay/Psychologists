@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import PsychologistItem from '../PsychologistItem';
 import { Psychologist } from '@/interfaces/interfaces';
+import Loading from '@/app/loading';
 interface PsychologistsListProps {
   data: Psychologist[];
 }
@@ -13,7 +14,7 @@ const PsychologistsList: FC<PsychologistsListProps> = ({ data }) => {
           <PsychologistItem key={psycholog.id} data={psycholog} />
         ))
       ) : (
-        <p>Loading...</p>
+        <Loading />
       )}
     </ul>
   );
