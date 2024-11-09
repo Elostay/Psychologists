@@ -9,9 +9,11 @@ interface Option {
   value: string;
   label: string;
 }
+
 interface CustomSelectProps {
   handleFilter: (filter: string) => void;
 }
+
 const CustomSelect = ({ handleFilter }: CustomSelectProps) => {
   const colorTheme = useSelector(selectColorThemeValue);
   const [isOpen, setIsOpen] = useState(false);
