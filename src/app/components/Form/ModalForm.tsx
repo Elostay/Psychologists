@@ -77,7 +77,7 @@ const ModalForm: FC<FormProps> = ({ header, text, isRegistration }) => {
               />
             </div>
           )}
-          <div className="p-4 border rounded-2xl mb-4 ">
+          <div className="p-4 border rounded-2xl mb-4">
             <Field
               type="email"
               name="email"
