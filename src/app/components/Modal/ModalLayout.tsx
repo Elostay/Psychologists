@@ -3,9 +3,16 @@ import { FC, PropsWithChildren } from 'react';
 import Portal from '../Portal';
 import clsx from 'clsx';
 
-interface ModalLayoutProps extends PropsWithChildren<ModalProps> {}
+interface ModalLayoutProps extends PropsWithChildren<ModalProps> {
+  className: string;
+}
 
-const ModalLayout: FC<ModalLayoutProps> = ({ onClose, children, open }) => {
+const ModalLayout: FC<ModalLayoutProps> = ({
+  onClose,
+  children,
+  open,
+  className,
+}) => {
   if (!open) return null;
   return (
     <Portal target="modals-root">
@@ -17,7 +24,7 @@ const ModalLayout: FC<ModalLayoutProps> = ({ onClose, children, open }) => {
       >
         <div
           onClick={e => e.stopPropagation()}
-          className="bg-white p-5 rounded-lg shadow-xl max-w-xl w-full"
+          className={clsx('bg-white p-5 rounded-lg shadow-xl ', className)}
         >
           {children}
         </div>

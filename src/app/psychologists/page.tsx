@@ -14,14 +14,6 @@ interface PsychologistsProps {}
 //!TODO responsive layout, favorite
 //?Idea color theme save on user profile
 //!FIXME use filter->load more jump page
-//!FIXME //@ts-ignore delete
-
-const query = {
-  sortBy: 'name',
-  order: 'asc',
-  limit: 5,
-  lastValue: null,
-};
 
 const Psychologists: FC<PsychologistsProps> = () => {
   const [psychologistsArray, setPsychologistsArray] = useState<Psychologist[]>(
@@ -42,9 +34,8 @@ const Psychologists: FC<PsychologistsProps> = () => {
     switch (filter) {
       case 'a-z':
         const sortedByNameAsc = psychologistsArray?.toSorted((a, b) => {
-          //@ts-ignore
           const nameA = a.name.replace(/^Dr\.?\s+/i, '');
-          //@ts-ignore
+
           const nameB = b.name.replace(/^Dr\.?\s+/i, '');
           return nameA.localeCompare(nameB);
         });
@@ -53,9 +44,8 @@ const Psychologists: FC<PsychologistsProps> = () => {
         break;
       case 'z-a':
         const sortedByNameDesc = psychologistsArray?.toSorted((a, b) => {
-          //@ts-ignore
           const nameA = a.name.replace(/^Dr\.?\s+/i, '');
-          //@ts-ignore
+
           const nameB = b.name.replace(/^Dr\.?\s+/i, '');
           return nameB.localeCompare(nameA);
         });
@@ -93,9 +83,8 @@ const Psychologists: FC<PsychologistsProps> = () => {
 
       default:
         const sortedByNameAscDefault = psychologistsArray?.toSorted((a, b) => {
-          //@ts-ignore
           const nameA = a.name.replace(/^Dr\.?\s+/i, '');
-          //@ts-ignore
+
           const nameB = b.name.replace(/^Dr\.?\s+/i, '');
           return nameA.localeCompare(nameB);
         });

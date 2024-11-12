@@ -69,7 +69,7 @@ const Header: FC<HeaderProps> = () => {
         </div>
       </div>
       {modalProps.open && (
-        <Modal {...modalProps}>
+        <Modal className="w-[566px]" {...modalProps}>
           {isRegistration ? (
             <ModalForm
               header={'Registration'}

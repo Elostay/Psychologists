@@ -9,17 +9,48 @@ import Heart from '@/app/components/Icons/Heart';
 import AboutPsycholog from '../AboutPsycholog';
 import ReviewsList from '../ReviewsList';
 import Button from '@/app/components/Button';
+import useModal from '@/hooks/useModal';
+import Modal from '../Modal';
+import X from '../Icons/X';
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
+import * as yup from 'yup';
+import { DateTimePicker, renderTimeViewClock } from '@mui/x-date-pickers';
 
 interface PsychologistItemProps {
   data: Psychologist;
 }
+interface Values {
+  name: string;
+  phone: string;
+  email: string;
+  comment: string;
+  meetingTime: Date | null;
+}
+const schema = yup.object().shape({
+  name: yup.string().required('Name is required'),
+  phone: yup.string().required('Phone is required'),
+  meetingTime: yup
+    .date()
+    .min(new Date(), 'Choose a future meeting time')
+    .required('Choose meeting time'),
+  email: yup.string().required('Email is required'),
+  comment: yup.string(),
+});
 
+const initialValues: Values = {
+  name: '',
+  meetingTime: null,
+  phone: '',
+  email: '',
+  comment: '',
+};
 const PsychologistItem: FC<PsychologistItemProps> = ({ data }) => {
   const colorTheme = useSelector(selectColorThemeValue);
   const [moneyColor, setMoneyColor] = useState('text-primary-orange');
   const [isFavorite, setIsFavorite] = useState(false);
   const [heartColor, setHeartColor] = useState('#FC832C');
   const [isReadMore, setIsReadMore] = useState(false);
+  const modalProps = useModal();
   useEffect(() => {
     if (colorTheme === 'orange') setMoneyColor('text-primary-orange');
     if (colorTheme === 'blue') setMoneyColor('text-primary-blue');
@@ -50,6 +81,13 @@ const PsychologistItem: FC<PsychologistItemProps> = ({ data }) => {
     setIsReadMore(true);
   };
 
+  const handleSubmit = (
+    values: Values,
+    { resetForm }: FormikHelpers<Values>
+  ) => {
+    console.log('💖 ~ handleSubmit ~ values:', values);
+    resetForm();
+  };
   return (
     <li className="flex gap-6 text-primary-black mb-8 border rounded-xl p-6 bg-white">
       <div className="p-3 border-2 border-secondary-green  rounded-3xl w-[120px] h-[120px] shrink-0">
@@ -121,6 +159,7 @@ const PsychologistItem: FC<PsychologistItemProps> = ({ data }) => {
           <div className="mt-12">
             <ReviewsList reviews={reviews} colorTheme={colorTheme} />
             <Button
+              onClick={modalProps.onOpen}
               className="mt-10"
               color="text-white"
               background={`bg-primary-${colorTheme}`}
@@ -130,6 +169,140 @@ const PsychologistItem: FC<PsychologistItemProps> = ({ data }) => {
           </div>
         )}
       </div>
+      <Modal className="w-[600px]" {...modalProps}>
+        <div className="relative p-11 ">
+          <button
+            className="absolute right-2 top-3"
+            type="button"
+            onClick={modalProps.onClose}
+          >
+            <X />
+          </button>
+          <h2 className="mb-5 text-4xl font-medium max-w-[430px]">
+            Make an appointment with a psychologists
+          </h2>
+          <p className="opacity-50 mb-10">
+            You are on the verge of changing your life for the better. Fill out
+            the short form below to book your personal appointment with a
+            professional psychologist. We guarantee confidentiality and respect
+            for your privacy.
+          </p>
+          <div className="flex gap-4 mb-10">
+            <div className="rounded-3xl overflow-hidden">
+              <Image
+                width={'60'}
+                height={'60'}
+                src={avatar_url}
+                alt={'pcycholog photo'}
+              />
+            </div>
+            <div>
+              <p className="mb-1 opacity-50">Your psychologists</p>
+              <p className="font-semibold ">{name}</p>
+            </div>
+          </div>
+          <Formik
+            validationSchema={schema}
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+          >
+            <Form>
+              <div className="p-4 border rounded-2xl mb-4">
+                <Field
+                  type="name"
+                  name="name"
+                  placeholder="Name"
+                  className="outline-none w-full"
+                />
+              </div>
+              <ErrorMessage
+                className="text-red-400 pl-2 mb-3 "
+                component="div"
+                name="name"
+              />
+
+              <div className="flex gap-2">
+                <div>
+                  <div className="p-4 border rounded-2xl mb-4">
+                    <Field
+                      type="number"
+                      name="phone"
+                      placeholder="Phone number"
+                      className="outline-none w-full"
+                    />
+                  </div>
+                  <ErrorMessage
+                    className="text-red-400 pl-2 mb-3 "
+                    component="div"
+                    name="phone"
+                  />
+                </div>
+
+                <div>
+                  <Field name="meetingTime">
+                    {({ field, form }: any) => (
+                      <DateTimePicker
+                        {...field}
+                        disablePast
+                        label="Meeting time"
+                        viewRenderers={{
+                          hours: renderTimeViewClock,
+                          minutes: renderTimeViewClock,
+                          seconds: renderTimeViewClock,
+                        }}
+                        onChange={newValue =>
+                          form.setFieldValue(field.name, newValue)
+                        }
+                        value={field.value}
+                      />
+                    )}
+                  </Field>
+                  <ErrorMessage
+                    className="text-red-400 pl-2 mt-4"
+                    component="div"
+                    name="meetingTime"
+                  />
+                </div>
+              </div>
+              <div className="p-4 border rounded-2xl mb-4">
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  className="outline-none w-full"
+                />
+              </div>
+              <ErrorMessage
+                className="text-red-400 pl-2 mb-3 "
+                component="div"
+                name="email"
+              />
+              <div className="p-4 border rounded-2xl mb-4">
+                <Field
+                  as="textarea"
+                  type="text"
+                  name="comment"
+                  placeholder="Comment"
+                  className="outline-none w-full"
+                />
+              </div>
+              <ErrorMessage
+                className="text-red-400 pl-2 mb-3 "
+                component="div"
+                name="comment"
+              />
+              <Button
+                type="submit"
+                background={`bg-primary-${colorTheme}`}
+                className="w-full "
+                color="text-primary-white"
+              >
+                Send
+              </Button>
+            </Form>
+          </Formik>
+        </div>
+      </Modal>
     </li>
   );
 };

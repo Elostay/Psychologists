@@ -1,19 +1,4 @@
 import app from '@/firebaseConfig';
-// import { getDatabase, ref, get } from 'firebase/database';
-
-// const fetchData = async () => {
-//   const db = getDatabase(app);
-//   const dbRef = ref(db, 'psychologists');
-//   const snapshot = await get(dbRef);
-
-//   if (snapshot.exists()) {
-//     return Object.values(snapshot.val());
-//   } else {
-//     console.log('error');
-//   }
-// };
-
-// export default fetchData;
 import { useState, useEffect } from 'react';
 import {
   getDatabase,
@@ -29,9 +14,6 @@ import { Psychologist } from '@/interfaces/interfaces';
 const PAGE_SIZE = 5;
 
 const usePaginatedData = () => {
-  //   const [data, setData] = useState([]);
-  //   const [lastKey, setLastKey] = useState(null);
-  //   const [hasMore, setHasMore] = useState(true);
   const [data, setData] = useState<Psychologist[]>([]);
   const [lastKey, setLastKey] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -52,11 +34,19 @@ const usePaginatedData = () => {
     }
 
     const snapshot = await get(psychologistsQuery);
+
     if (snapshot.exists()) {
-      const items = Object.entries(snapshot.val()).map(([id, value]) => ({
-        id, //@ts-ignore
-        ...value,
-      }));
+      // const items = Object.entries(snapshot.val()).map(([id, value]) => ({
+      //   //   id,
+      //   //   ...(value as Psychologist),
+      // }));
+      const items = Object.entries(snapshot.val()).map(([id, value]) => {
+        const { id: _, ...rest } = value as Psychologist;
+        return {
+          id,
+          ...rest,
+        };
+      });
 
       if (items.length > 0) {
         setLastKey(items[items.length - 1].id);
