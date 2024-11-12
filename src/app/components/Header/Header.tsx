@@ -49,13 +49,18 @@ const Header: FC<HeaderProps> = () => {
             </div>
           </div>
 
-          <div className="flex gap-2 font-medium">
-            <Button border={true} onClick={handleLogIn}>
+          <div className="flex gap-2 font-medium ">
+            <Button
+              className="outline-none"
+              border={true}
+              onClick={handleLogIn}
+            >
               Log In
             </Button>
             <Button
               onClick={handleRegistration}
               color="text-white"
+              className="outline-none"
               background={`bg-primary-${colorTheme}`}
             >
               Registration
@@ -63,24 +68,28 @@ const Header: FC<HeaderProps> = () => {
           </div>
         </div>
       </div>
-      <Modal {...modalProps}>
-        {isRegistration ? (
-          <ModalForm
-            header={'Registration'}
-            text={
-              'Thank you for your interest in our platform! In order to register, we need some information. Please provide us with the following information.'
-            }
-            isRegistration
-          />
-        ) : (
-          <ModalForm
-            header={'Log In'}
-            text={
-              'Welcome back! Please enter your credentials to access your account and continue your search for a psychologist.'
-            }
-          />
-        )}
-      </Modal>
+      {modalProps.open && (
+        <Modal {...modalProps}>
+          {isRegistration ? (
+            <ModalForm
+              header={'Registration'}
+              text={
+                'Thank you for your interest in our platform! In order to register, we need some information. Please provide us with the following information.'
+              }
+              onClose={modalProps.onClose}
+              isRegistration
+            />
+          ) : (
+            <ModalForm
+              header={'Log In'}
+              text={
+                'Welcome back! Please enter your credentials to access your account and continue your search for a psychologist.'
+              }
+              onClose={modalProps.onClose}
+            />
+          )}
+        </Modal>
+      )}
     </header>
   );
 };

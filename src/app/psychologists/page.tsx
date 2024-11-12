@@ -11,7 +11,7 @@ import usePaginatedData from '@/helpers/fetchData';
 
 interface PsychologistsProps {}
 
-//!TODO pagination,responsive layout, favorite
+//!TODO responsive layout, favorite
 //?Idea color theme save on user profile
 //!FIXME use filter->load more jump page
 //!FIXME //@ts-ignore delete
