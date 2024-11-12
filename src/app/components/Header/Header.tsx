@@ -1,6 +1,6 @@
 'use client';
 import clsx from 'clsx';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Button from '../Button';
 import { useSelector } from 'react-redux';
 import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
@@ -8,23 +8,43 @@ import Link from 'next/link';
 import Modal from '../Modal';
 import useModal from '@/hooks/useModal';
 import ModalForm from '../Form';
+import { usePathname, useRouter } from 'next/navigation';
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
   const colorTheme = useSelector(selectColorThemeValue);
   const modalProps = useModal();
-
+  const router = useRouter();
+  const pathname = usePathname();
   const [isRegistration, setIsRegistration] = useState(false);
+
+  //   const handleRegistration = () => {
+  //     modalProps.onOpen();
+  //     setIsRegistration(true);
+  //   };
 
   const handleRegistration = () => {
     modalProps.onOpen();
+    window.history.pushState(null, '', '/registration');
     setIsRegistration(true);
   };
-
   const handleLogIn = () => {
     modalProps.onOpen();
+    window.history.pushState(null, '', '/login');
     setIsRegistration(false);
   };
+  useEffect(() => {
+    if (
+      !modalProps.open &&
+      (pathname === '/registration' || pathname === '/login')
+    ) {
+      router.back();
+    }
+  }, [modalProps.open, pathname, router]);
+  //   const handleLogIn = () => {
+  //     modalProps.onOpen();
+  //     setIsRegistration(false);
+  //   };
 
   return (
     <header className=" p-4 border-b border-gray-300">

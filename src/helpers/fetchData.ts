@@ -1,4 +1,4 @@
-import app from '@/firebaseConfig';
+import { app } from '@/firebaseConfig';
 import { useState, useEffect } from 'react';
 import {
   getDatabase,
@@ -36,10 +36,6 @@ const usePaginatedData = () => {
     const snapshot = await get(psychologistsQuery);
 
     if (snapshot.exists()) {
-      // const items = Object.entries(snapshot.val()).map(([id, value]) => ({
-      //   //   id,
-      //   //   ...(value as Psychologist),
-      // }));
       const items = Object.entries(snapshot.val()).map(([id, value]) => {
         const { id: _, ...rest } = value as Psychologist;
         return {

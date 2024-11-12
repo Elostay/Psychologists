@@ -8,17 +8,19 @@ import PsychologistsList from '../components/PsychologistsList';
 import CustomSelect from '../components/CustomSelect';
 import Loading from '../loading';
 import usePaginatedData from '@/helpers/fetchData';
+import { useSelector } from 'react-redux';
+import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
 
 interface PsychologistsProps {}
 
 //!TODO responsive layout, favorite
 //?Idea color theme save on user profile
-//!FIXME use filter->load more jump page
 
 const Psychologists: FC<PsychologistsProps> = () => {
   const [psychologistsArray, setPsychologistsArray] = useState<Psychologist[]>(
     []
   );
+  const colorTheme = useSelector(selectColorThemeValue);
 
   const { data, fetchData, hasMore } = usePaginatedData();
   const loadMore = () => {
@@ -106,7 +108,7 @@ const Psychologists: FC<PsychologistsProps> = () => {
           <div className="flex justify-center">
             {hasMore && (
               <Button
-                background="bg-primary-orange"
+                background={`bg-primary-${colorTheme}`}
                 color="text-primary-white"
                 onClick={loadMore}
               >

@@ -12,7 +12,7 @@ import Button from '../Button';
 interface FormProps {
   header: string;
   text: string;
-  onClose: () => void;
+  onClose?: () => void;
   isRegistration?: boolean;
 }
 

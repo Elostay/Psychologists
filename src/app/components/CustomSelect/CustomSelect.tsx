@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import ChevronDown from '@/app/components/Icons/ChevronDown'; // Імпортуйте свій SVG компонент
+import ChevronDown from '@/app/components/Icons/ChevronDown';
 import { useSelector } from 'react-redux';
 import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
 import clsx from 'clsx';
