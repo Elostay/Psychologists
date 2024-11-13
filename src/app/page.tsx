@@ -12,7 +12,7 @@ import ChangeColorThemeModal from './components/ChangeColorThemeModal';
 
 interface HomeProps {}
 
-const HomeName: FC<HomeProps> = () => {
+const Home: FC<HomeProps> = () => {
   const colorTheme = useSelector(selectColorThemeValue);
   const [checkMarkColor, setCheckMarkColor] = useState('#FC832C');
 
@@ -104,9 +104,9 @@ const HomeName: FC<HomeProps> = () => {
         )}
       ></div>
 
-      <ChangeColorThemeModal />
+      {/* <ChangeColorThemeModal /> */}
     </main>
   );
 };
 
-export default HomeName;
+export default Home;

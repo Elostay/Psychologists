@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import App from './components/App';
 import Header from './components/Header';
 import { ReactNode, Suspense } from 'react';
-import Loading from './loading';
+// import Loading from './loading';
 
 const interBold = Inter({ weight: '700', subsets: ['latin'] });
 const interSemiBold = Inter({ weight: '600', subsets: ['latin'] });
@@ -27,20 +27,22 @@ export const metadata = {
 
 interface LayoutProps {
   children: ReactNode;
+  modal: ReactNode;
 }
-export default function RootLayout({ children }: LayoutProps) {
+//! loading, changecolorthememodal
+export default function RootLayout({ children, modal }: LayoutProps) {
   return (
     <html lang="en">
       <body
         className={`${fontClasses} text-primary-black overflow-x-hidden bg-[#f3f3f3]`}
       >
-        <Suspense fallback={<Loading />}>
-          <App>
-            <Header />
-            {children}
-          </App>
-        </Suspense>
-        <div id="modals-root"></div>
+        {/* <Suspense fallback={<Loading />}> */}
+        <App>
+          <Header />
+          {modal}
+          {children}
+        </App>
+        {/* </Suspense> */}
       </body>
     </html>
   );

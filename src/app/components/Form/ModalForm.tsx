@@ -57,7 +57,7 @@ const ModalForm: FC<FormProps> = ({
   };
 
   return (
-    <div className="relative p-11">
+    <div className="relative p-16">
       <button
         className="absolute right-2 top-3"
         type="button"

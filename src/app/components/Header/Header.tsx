@@ -1,50 +1,25 @@
 'use client';
 import clsx from 'clsx';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import Button from '../Button';
 import { useSelector } from 'react-redux';
 import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
 import Link from 'next/link';
-import Modal from '../Modal';
-import useModal from '@/hooks/useModal';
-import ModalForm from '../Form';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
   const colorTheme = useSelector(selectColorThemeValue);
-  const modalProps = useModal();
-  const router = useRouter();
-  const pathname = usePathname();
-  const [isRegistration, setIsRegistration] = useState(false);
 
-  //   const handleRegistration = () => {
-  //     modalProps.onOpen();
-  //     setIsRegistration(true);
-  //   };
+  const router = useRouter();
 
   const handleRegistration = () => {
-    modalProps.onOpen();
-    window.history.pushState(null, '', '/registration');
-    setIsRegistration(true);
+    router.push('/registration');
   };
   const handleLogIn = () => {
-    modalProps.onOpen();
-    window.history.pushState(null, '', '/login');
-    setIsRegistration(false);
+    router.push('/login');
   };
-  useEffect(() => {
-    if (
-      !modalProps.open &&
-      (pathname === '/registration' || pathname === '/login')
-    ) {
-      router.back();
-    }
-  }, [modalProps.open, pathname, router]);
-  //   const handleLogIn = () => {
-  //     modalProps.onOpen();
-  //     setIsRegistration(false);
-  //   };
 
   return (
     <header className=" p-4 border-b border-gray-300">
@@ -88,28 +63,6 @@ const Header: FC<HeaderProps> = () => {
           </div>
         </div>
       </div>
-      {modalProps.open && (
-        <Modal className="w-[566px]" {...modalProps}>
-          {isRegistration ? (
-            <ModalForm
-              header={'Registration'}
-              text={
-                'Thank you for your interest in our platform! In order to register, we need some information. Please provide us with the following information.'
-              }
-              onClose={modalProps.onClose}
-              isRegistration
-            />
-          ) : (
-            <ModalForm
-              header={'Log In'}
-              text={
-                'Welcome back! Please enter your credentials to access your account and continue your search for a psychologist.'
-              }
-              onClose={modalProps.onClose}
-            />
-          )}
-        </Modal>
-      )}
     </header>
   );
 };
