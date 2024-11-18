@@ -3,7 +3,7 @@ import Button from '../Button';
 import useModal from '@/hooks/useModal';
 import { setColorThemeAction } from '@/redux/colorTheme/colorThemeSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import Modal from '../Modal';
+import Modal from '../CustomModal';
 import clsx from 'clsx';
 import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
 

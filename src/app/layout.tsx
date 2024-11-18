@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google';
 import App from './components/App';
 import Header from './components/Header';
 import { ReactNode, Suspense } from 'react';
-// import Loading from './loading';
 
 const interBold = Inter({ weight: '700', subsets: ['latin'] });
 const interSemiBold = Inter({ weight: '600', subsets: ['latin'] });
@@ -29,20 +28,18 @@ interface LayoutProps {
   children: ReactNode;
   modal: ReactNode;
 }
-//! loading, changecolorthememodal
+//!  changecolorthememodal
 export default function RootLayout({ children, modal }: LayoutProps) {
   return (
     <html lang="en">
       <body
         className={`${fontClasses} text-primary-black overflow-x-hidden bg-[#f3f3f3]`}
       >
-        {/* <Suspense fallback={<Loading />}> */}
         <App>
           <Header />
           {modal}
           {children}
         </App>
-        {/* </Suspense> */}
       </body>
     </html>
   );

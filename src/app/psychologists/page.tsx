@@ -6,7 +6,7 @@ import Button from '../components/Button';
 import { Psychologist } from '@/interfaces/interfaces';
 import PsychologistsList from '../components/PsychologistsList';
 import CustomSelect from '../components/CustomSelect';
-// import Loading from '../loading';
+import Loading from '../loading';
 import usePaginatedData from '@/helpers/fetchData';
 import { useSelector } from 'react-redux';
 import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
@@ -117,8 +117,9 @@ const Psychologists: FC<PsychologistsProps> = () => {
             )}
           </div>
         </div>
-      ) : //   <Loading />
-      null}
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 };

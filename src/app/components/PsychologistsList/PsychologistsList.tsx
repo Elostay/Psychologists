@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import PsychologistItem from '../PsychologistItem';
 import { Psychologist } from '@/interfaces/interfaces';
-// import Loading from '@/app/loading';
+import Loading from '@/app/loading';
 interface PsychologistsListProps {
   data: Psychologist[];
 }
@@ -9,12 +9,13 @@ interface PsychologistsListProps {
 const PsychologistsList: FC<PsychologistsListProps> = ({ data }) => {
   return (
     <ul>
-      {data
-        ? data.map((psycholog: Psychologist) => (
-            <PsychologistItem key={psycholog.id} data={psycholog} />
-          ))
-        : //   <Loading />
-          null}
+      {data ? (
+        data.map((psycholog: Psychologist) => (
+          <PsychologistItem key={psycholog.id} data={psycholog} />
+        ))
+      ) : (
+        <Loading />
+      )}
     </ul>
   );
 };
