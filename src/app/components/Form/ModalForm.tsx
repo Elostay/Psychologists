@@ -7,12 +7,17 @@ import * as yup from 'yup';
 import { useSelector } from 'react-redux';
 import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
 import Button from '../Button';
-
+import {
+  useCreateUserWithEmailAndPassword,
+  useSignInWithEmailAndPassword,
+} from 'react-firebase-hooks/auth';
+import { auth } from '@/firebaseConfig';
+import { useRouter } from 'next/navigation';
 interface FormProps {
   header: string;
   text: string;
-
-  isRegistration?: boolean;
+  isLogin: boolean;
+  isRegistration: boolean;
 }
 
 interface Values {
@@ -20,8 +25,18 @@ interface Values {
   email: string;
   password: string;
 }
-const ModalForm: FC<FormProps> = ({ header, text, isRegistration }) => {
+const ModalForm: FC<FormProps> = ({
+  header,
+  text,
+  isRegistration,
+  isLogin,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [createUserWithEmailAndPassword] =
+    useCreateUserWithEmailAndPassword(auth);
+  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+
+  const router = useRouter();
   const colorTheme = useSelector(selectColorThemeValue);
   const handleShowPassword = () => {
     setShowPassword(prev => !prev);
@@ -42,11 +57,26 @@ const ModalForm: FC<FormProps> = ({ header, text, isRegistration }) => {
       .required('Password is required'),
   });
 
-  const handleSubmit = (
+  const handleSubmit = async (
     values: Values,
     { resetForm }: FormikHelpers<Values>
   ) => {
-    console.log('💖 ~ handleSubmit ~ values:', values);
+    const { name, email, password } = values;
+    try {
+      if (isRegistration) {
+        const res = await createUserWithEmailAndPassword(email, password);
+        console.log('💖 ~ res:', res);
+      }
+
+      if (isLogin) {
+        const res = await signInWithEmailAndPassword(email, password);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      router.push('/');
+    }
+
     resetForm();
   };
 

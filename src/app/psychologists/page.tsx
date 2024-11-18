@@ -10,7 +10,9 @@ import Loading from '../loading';
 import usePaginatedData from '@/helpers/fetchData';
 import { useSelector } from 'react-redux';
 import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
-
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@/firebaseConfig';
+import { useRouter } from 'next/navigation';
 interface PsychologistsProps {}
 
 //!TODO responsive layout, favorite
@@ -20,6 +22,9 @@ const Psychologists: FC<PsychologistsProps> = () => {
   const [psychologistsArray, setPsychologistsArray] = useState<Psychologist[]>(
     []
   );
+  const [user] = useAuthState(auth);
+  const router = useRouter();
+
   const colorTheme = useSelector(selectColorThemeValue);
 
   const { data, fetchData, hasMore } = usePaginatedData();
@@ -29,6 +34,9 @@ const Psychologists: FC<PsychologistsProps> = () => {
     }
   };
   useEffect(() => {
+    if (!user) {
+      router.push('/');
+    }
     setPsychologistsArray(data);
   }, [data]);
 

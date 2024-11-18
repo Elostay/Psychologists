@@ -6,10 +6,14 @@ import { useSelector } from 'react-redux';
 import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@/firebaseConfig';
+import { signOut } from 'firebase/auth';
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
+  const [user] = useAuthState(auth);
+
   const colorTheme = useSelector(selectColorThemeValue);
 
   const router = useRouter();
@@ -38,29 +42,47 @@ const Header: FC<HeaderProps> = () => {
               </span>
               services
             </Link>
-            <div className="flex gap-10">
-              <Link href="/">Home</Link>
-              <Link href="/psychologists">Psychologists</Link>
-            </div>
+            {user && (
+              <div className="flex gap-10">
+                <Link href="/">Home</Link>
+                <Link href="/psychologists">Psychologists</Link>
+              </div>
+            )}
           </div>
 
-          <div className="flex gap-2 font-medium ">
-            <Button
-              className="outline-none"
-              border={true}
-              onClick={handleLogIn}
-            >
-              Log In
-            </Button>
-            <Button
-              onClick={handleRegistration}
-              color="text-white"
-              className="outline-none"
-              background={`bg-primary-${colorTheme}`}
-            >
-              Registration
-            </Button>
-          </div>
+          {!user && (
+            <div className="flex gap-2 font-medium ">
+              <Button
+                className="outline-none"
+                border={true}
+                onClick={handleLogIn}
+              >
+                Log In
+              </Button>
+              <Button
+                onClick={handleRegistration}
+                color="text-white"
+                className="outline-none"
+                background={`bg-primary-${colorTheme}`}
+              >
+                Registration
+              </Button>
+            </div>
+          )}
+          {user && (
+            <div className="flex gap-2 font-medium ">
+              <Button
+                className="outline-none"
+                border={true}
+                onClick={() => {
+                  signOut(auth);
+                  router.push('/');
+                }}
+              >
+                Log out
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </header>

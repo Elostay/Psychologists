@@ -27,7 +27,7 @@ const Home: FC<HomeProps> = () => {
       <div className="-tracking-0.02 flex justify-between items-center pt-[102px] relative z-50">
         <div className="max-w-[595px]">
           <h1 className="font-semibold text-[80px] leading-102 ">
-            The road to the{' '}
+            The road to the
             <span
               className={clsx(
                 'italic',
@@ -37,7 +37,7 @@ const Home: FC<HomeProps> = () => {
               )}
             >
               depths
-            </span>{' '}
+            </span>
             of the human soul
           </h1>
           <p className="font-medium text-lg leading-133 max-w-[510px] mt-5 mb-10">
