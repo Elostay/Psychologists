@@ -11,8 +11,19 @@ import {
   useCreateUserWithEmailAndPassword,
   useSignInWithEmailAndPassword,
 } from 'react-firebase-hooks/auth';
-import { auth } from '@/firebaseConfig';
+import { auth, db } from '@/firebaseConfig';
 import { useRouter } from 'next/navigation';
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  query,
+  collection,
+  where,
+  getDocs,
+} from 'firebase/firestore';
+import { Bounce, toast, ToastContainer } from 'react-toastify';
+
 interface FormProps {
   header: string;
   text: string;
@@ -25,6 +36,7 @@ interface Values {
   email: string;
   password: string;
 }
+
 const ModalForm: FC<FormProps> = ({
   header,
   text,
@@ -35,9 +47,9 @@ const ModalForm: FC<FormProps> = ({
   const [createUserWithEmailAndPassword] =
     useCreateUserWithEmailAndPassword(auth);
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
-
   const router = useRouter();
   const colorTheme = useSelector(selectColorThemeValue);
+
   const handleShowPassword = () => {
     setShowPassword(prev => !prev);
   };
@@ -64,17 +76,76 @@ const ModalForm: FC<FormProps> = ({
     const { name, email, password } = values;
     try {
       if (isRegistration) {
-        const res = await createUserWithEmailAndPassword(email, password);
-        console.log('💖 ~ res:', res);
+        const q = query(collection(db, 'users'), where('email', '==', email));
+
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+          toast.error('Email already exist', {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+            transition: Bounce,
+          });
+          return;
+        }
+
+        const userCredential = await createUserWithEmailAndPassword(
+          email,
+          password
+        );
+
+        const user = userCredential?.user;
+
+        if (user?.uid) {
+          await setDoc(doc(db, 'users', user.uid), {
+            name,
+            email: user?.email,
+            createdAt: new Date().toISOString(),
+          });
+          toast.success('Registration was successful', {
+            position: 'top-right',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+            transition: Bounce,
+          });
+        } else {
+          console.log('user id cannot be undefined');
+        }
+        router.push('/');
       }
 
       if (isLogin) {
         const res = await signInWithEmailAndPassword(email, password);
+
+        if (!res) {
+          toast.error('Wrong password or email', {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+            transition: Bounce,
+          });
+        } else {
+          router.push('/');
+        }
       }
     } catch (error) {
       console.error(error);
-    } finally {
-      router.push('/');
     }
 
     resetForm();
@@ -157,6 +228,14 @@ const ModalForm: FC<FormProps> = ({
           </Button>
         </Form>
       </Formik>
+      {isLogin && (
+        <button
+          onClick={() => router.push('/forgot-password')}
+          className="mt-4 text-sm opacity-50"
+        >
+          Forgot password?
+        </button>
+      )}
     </div>
   );
 };

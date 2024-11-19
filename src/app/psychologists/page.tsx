@@ -103,7 +103,7 @@ const Psychologists: FC<PsychologistsProps> = () => {
         break;
     }
   };
-
+  if (!user) return <Loading />;
   return (
     <div>
       {psychologistsArray.length > 0 ? (

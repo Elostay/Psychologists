@@ -9,6 +9,8 @@ import { useRouter } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebaseConfig';
 import { signOut } from 'firebase/auth';
+
+import User from '../Icons/User';
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
@@ -46,6 +48,7 @@ const Header: FC<HeaderProps> = () => {
               <div className="flex gap-10">
                 <Link href="/">Home</Link>
                 <Link href="/psychologists">Psychologists</Link>
+                <Link href="/favorites">Favorites</Link>
               </div>
             )}
           </div>
@@ -70,7 +73,20 @@ const Header: FC<HeaderProps> = () => {
             </div>
           )}
           {user && (
-            <div className="flex gap-2 font-medium ">
+            <div className="flex gap-7 font-medium items-center">
+              <div className="flex gap-3 items-center">
+                <div
+                  className={clsx(
+                    'flex w-10 h-10 p-2 items-center justify-center rounded-xl',
+                    `bg-primary-${colorTheme}`
+                  )}
+                >
+                  <User width={16} height={16} fill="black" />
+                </div>
+                <p className="max-w-48 whitespace-nowrap overflow-hidden">
+                  Elostay
+                </p>
+              </div>
               <Button
                 className="outline-none"
                 border={true}

@@ -6,7 +6,8 @@ import { Provider } from 'react-redux';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Loading from '@/app/loading';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 interface AppProps {
   children: ReactNode;
 }
@@ -17,6 +18,7 @@ const App: FC<AppProps> = ({ children }: AppProps) => {
       <Suspense fallback={<Loading />}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           {children}
+          <ToastContainer />
         </LocalizationProvider>
       </Suspense>
     </Provider>

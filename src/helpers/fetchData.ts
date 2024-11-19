@@ -21,41 +21,49 @@ const usePaginatedData = () => {
     const db = getDatabase(app);
     const dbRef = ref(db, 'psychologists');
 
-    let psychologistsQuery;
-    if (lastKey) {
-      psychologistsQuery = query(
-        dbRef,
-        orderByKey(),
-        startAfter(lastKey),
-        limitToFirst(PAGE_SIZE)
-      );
-    } else {
-      psychologistsQuery = query(dbRef, orderByKey(), limitToFirst(PAGE_SIZE));
-    }
-
-    const snapshot = await get(psychologistsQuery);
-
-    if (snapshot.exists()) {
-      const items = Object.entries(snapshot.val()).map(([id, value]) => {
-        const { id: _, ...rest } = value as Psychologist;
-        return {
-          id,
-          ...rest,
-        };
-      });
-
-      if (items.length > 0) {
-        setLastKey(items[items.length - 1].id);
-
-        setData(prevData => [...prevData, ...items]);
-
-        setHasMore(items.length === PAGE_SIZE);
+    try {
+      let psychologistsQuery;
+      if (lastKey) {
+        psychologistsQuery = query(
+          dbRef,
+          orderByKey(),
+          startAfter(lastKey),
+          limitToFirst(PAGE_SIZE)
+        );
       } else {
+        psychologistsQuery = query(
+          dbRef,
+          orderByKey(),
+          limitToFirst(PAGE_SIZE)
+        );
+      }
+
+      const snapshot = await get(psychologistsQuery);
+
+      if (snapshot.exists()) {
+        const items = Object.entries(snapshot.val()).map(([id, value]) => {
+          const { id: _, ...rest } = value as Psychologist;
+          return {
+            id,
+            ...rest,
+          };
+        });
+
+        if (items.length > 0) {
+          setLastKey(items[items.length - 1].id);
+
+          setData(prevData => [...prevData, ...items]);
+
+          setHasMore(items.length === PAGE_SIZE);
+        } else {
+          setHasMore(false);
+        }
+      } else {
+        console.log('error');
         setHasMore(false);
       }
-    } else {
-      console.log('error');
-      setHasMore(false);
+    } catch (error) {
+      console.log('You have not acces to db');
     }
   };
 

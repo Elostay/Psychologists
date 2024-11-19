@@ -28,7 +28,7 @@ const Loading: FC<LoadingProps> = () => {
     }
   }, []);
   return (
-    <div className=" flex items-center justify-center fixed top-0 left-0 w-screen h-screen z-50 ">
+    <div className=" flex items-center justify-center absolute top-0 left-0 w-screen h-screen z-50 ">
       <Hearts
         height="80"
         width="80"
