@@ -11,6 +11,8 @@ import ReviewsList from '../ReviewsList';
 import Button from '@/app/components/Button';
 
 import { useRouter } from 'next/navigation';
+import { getUserById, toggleFavorite } from '@/helpers/fetchUser';
+import { auth } from '@/firebaseConfig';
 
 interface PsychologistItemProps {
   data: Psychologist;
@@ -23,7 +25,8 @@ const PsychologistItem: FC<PsychologistItemProps> = ({ data }) => {
   const [heartColor, setHeartColor] = useState('#FC832C');
   const [isReadMore, setIsReadMore] = useState(false);
 
-  const meetingUrl = `/meeting?data=${encodeURIComponent(JSON.stringify(data))}`;
+  const currentUser = auth.currentUser?.uid;
+
   const router = useRouter();
 
   useEffect(() => {
@@ -51,6 +54,7 @@ const PsychologistItem: FC<PsychologistItemProps> = ({ data }) => {
 
   const handleFavorite = async () => {
     setIsFavorite(prev => !prev);
+    if (currentUser) toggleFavorite(currentUser, id);
   };
 
   const handleReadMore = () => {
@@ -60,6 +64,18 @@ const PsychologistItem: FC<PsychologistItemProps> = ({ data }) => {
   const handleOpenModal = () => {
     router.push(`/meeting/${id}?name=${name}&avatar_url=${avatar_url}`);
   };
+
+  useEffect(() => {
+    const getFavorites = async () => {
+      if (currentUser) {
+        const data = await getUserById(currentUser);
+              const favorite = data?.favorites.includes(id);
+        if (favorite) setIsFavorite(favorite);  
+      }
+    };
+    getFavorites();
+  }, []);
+	
   return (
     <li className="flex gap-6 text-primary-black mb-8 border rounded-xl p-6 bg-white">
       <div className="p-3 border-2 border-secondary-green  rounded-3xl w-[120px] h-[120px] shrink-0">
