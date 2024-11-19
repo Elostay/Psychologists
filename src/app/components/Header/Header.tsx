@@ -5,7 +5,7 @@ import Button from '../Button';
 import { useSelector } from 'react-redux';
 import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebaseConfig';
 import { signOut } from 'firebase/auth';
@@ -19,6 +19,7 @@ const Header: FC<HeaderProps> = () => {
   const colorTheme = useSelector(selectColorThemeValue);
 
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleRegistration = () => {
     router.push('/registration');
@@ -46,9 +47,36 @@ const Header: FC<HeaderProps> = () => {
             </Link>
             {user && (
               <div className="flex gap-10">
-                <Link href="/">Home</Link>
-                <Link href="/psychologists">Psychologists</Link>
-                <Link href="/favorites">Favorites</Link>
+                <Link
+                  href="/"
+                  className={clsx(
+                    pathname === '/'
+                      ? `border-b-8 rounded-lg border-primary-${colorTheme}`
+                      : ''
+                  )}
+                >
+                  Home
+                </Link>
+                <Link
+                  href="/psychologists"
+                  className={clsx(
+                    pathname === '/psychologists'
+                      ? `border-b-8 rounded-lg  border-primary-${colorTheme}`
+                      : ''
+                  )}
+                >
+                  Psychologists
+                </Link>
+                <Link
+                  href="/favorites"
+                  className={clsx(
+                    pathname === '/favorites'
+                      ? `border-b-8 rounded-lg  border-primary-${colorTheme}`
+                      : ''
+                  )}
+                >
+                  Favorites
+                </Link>
               </div>
             )}
           </div>
