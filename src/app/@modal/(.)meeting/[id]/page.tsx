@@ -9,8 +9,8 @@ import Image from 'next/image';
 import Button from '@/app/components/Button';
 import { useSelector } from 'react-redux';
 import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
-import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Bounce, toast } from 'react-toastify';
 
 interface Values {
   name: string;
@@ -44,14 +44,26 @@ export default function MeetingModal() {
   const avatar_url = searchParams.get('avatar_url');
 
   const colorTheme = useSelector(selectColorThemeValue);
+  const router = useRouter();
 
   const handleSubmit = (
     values: Values,
     { resetForm }: FormikHelpers<Values>
   ) => {
+    toast.success('Appointment registration is successful', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+      transition: Bounce,
+    });
+    router.back();
     resetForm();
   };
-
 
   return (
     <CustomModal>

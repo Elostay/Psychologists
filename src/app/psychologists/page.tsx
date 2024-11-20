@@ -15,9 +15,6 @@ import { auth } from '@/firebaseConfig';
 import { useRouter } from 'next/navigation';
 interface PsychologistsProps {}
 
-//!TODO responsive layout
-//?Idea color theme save on user profile
-
 const Psychologists: FC<PsychologistsProps> = () => {
   const [psychologistsArray, setPsychologistsArray] = useState<Psychologist[]>(
     []

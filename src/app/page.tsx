@@ -1,18 +1,21 @@
 'use client';
 import { FC, useEffect, useState } from 'react';
-import Button from './components/Button';
 import Image from 'next/image';
 import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
-import Arrow from './components/Icons/Arrow';
 import CheckMark from './components/Icons/CheckMark';
 import People from './components/Icons/People';
-import ChangeColorThemeModal from './components/ChangeColorThemeModal';
+import { auth } from '@/firebaseConfig';
+import { getColorTheme } from '@/helpers/fetchUser';
+import { setColorThemeAction } from '@/redux/colorTheme/colorThemeSlice';
 
 interface HomeProps {}
 
 const Home: FC<HomeProps> = () => {
+  const currentUser = auth.currentUser?.uid;
+  const dispatch = useDispatch();
+
   const colorTheme = useSelector(selectColorThemeValue);
   const [checkMarkColor, setCheckMarkColor] = useState('#FC832C');
 
@@ -22,6 +25,16 @@ const Home: FC<HomeProps> = () => {
     if (colorTheme === 'green') setCheckMarkColor('#54be96');
   }, [colorTheme]);
 
+  useEffect(() => {
+    const fetchColorTheme = async () => {
+      if (currentUser) {
+        const colorThemeData = await getColorTheme(currentUser);
+        dispatch(setColorThemeAction(colorThemeData));
+      }
+    };
+
+    fetchColorTheme();
+  }, [currentUser]);
   return (
     <main className="container mx-auto p-4 ">
       <div className="-tracking-0.02 flex justify-between items-center pt-[102px] relative z-50">
@@ -45,15 +58,6 @@ const Home: FC<HomeProps> = () => {
             guide in your own life with the help of our experienced
             psychologists.
           </p>
-          {/* <Button
-            className="flex items-center gap-5"
-            background={`bg-primary-${colorTheme}`}
-            color="text-white"
-            onClick={modalProps.onOpen}
-          >
-            <p>Get started</p>
-            <Arrow />
-          </Button> */}
         </div>
         <div className="relative">
           <Image

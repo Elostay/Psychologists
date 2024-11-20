@@ -69,13 +69,13 @@ const PsychologistItem: FC<PsychologistItemProps> = ({ data }) => {
     const getFavorites = async () => {
       if (currentUser) {
         const data = await getUserById(currentUser);
-              const favorite = data?.favorites.includes(id);
-        if (favorite) setIsFavorite(favorite);  
+        const favorite = data?.favorites.includes(id);
+        if (favorite) setIsFavorite(favorite);
       }
     };
     getFavorites();
   }, []);
-	
+
   return (
     <li className="flex gap-6 text-primary-black mb-8 border rounded-xl p-6 bg-white">
       <div className="p-3 border-2 border-secondary-green  rounded-3xl w-[120px] h-[120px] shrink-0">

@@ -70,4 +70,44 @@ const getFavorites = async (psychologistIds: string[]) => {
   }
 };
 
-export { getUserById, toggleFavorite, getFavorites };
+const updateColorTheme = async (currentUser: string, colorTheme: string) => {
+  if (currentUser) {
+    try {
+      const userDocRef = doc(db, 'users', currentUser);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const colorThemeData = userData?.colorTheme || 'orange';
+        if (colorThemeData !== colorTheme)
+          await updateDoc(userDocRef, {
+            colorTheme,
+          });
+      }
+    } catch (error) {
+      console.error('Error adding to favorites:', error);
+    }
+  }
+};
+
+const getColorTheme = async (currentUser: string) => {
+  if (currentUser) {
+    try {
+      const userDocRef = doc(db, 'users', currentUser);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        return userDoc.data().colorTheme;
+      }
+    } catch (error) {
+      console.error("Can't gey color theme", error);
+    }
+  }
+};
+export {
+  getUserById,
+  toggleFavorite,
+  getFavorites,
+  updateColorTheme,
+  getColorTheme,
+};

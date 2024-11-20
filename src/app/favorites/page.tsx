@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import Loading from '../loading';
 import { getFavorites, getUserById } from '@/helpers/fetchUser';
 import PsychologistsList from '../components/PsychologistsList';
-import usePaginatedData from '@/helpers/fetchData';
 import { Psychologist } from '@/interfaces/interfaces';
 import CustomSelect from '../components/CustomSelect';
 
@@ -15,6 +14,7 @@ interface FavoritesProps {}
 
 const Favorites: FC<FavoritesProps> = () => {
   const [favoritesArray, setFavoritesArray] = useState<Psychologist[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [user] = useAuthState(auth);
   const router = useRouter();
@@ -94,7 +94,7 @@ const Favorites: FC<FavoritesProps> = () => {
         const userFavoritesId = userData?.favorites;
 
         const favoriteArray = await getFavorites(userFavoritesId);
-
+        setIsLoading(false);
         setFavoritesArray(favoriteArray);
       }
     };
@@ -105,17 +105,27 @@ const Favorites: FC<FavoritesProps> = () => {
 
   return (
     <div>
-      {favoritesArray.length > 0 ? (
-        <div className="container mx-auto p-4 ">
-          <div>
-            <p className="mb-2 opacity-50 font-medium">Filters</p>
-            <CustomSelect handleFilter={handleFilter} />
-          </div>
-          <PsychologistsList data={favoritesArray} />
-        </div>
+      {isLoading ? (
+        <Loading />
       ) : (
-        //   <Loading />
-        <div>Need to add loading and empty notification</div>
+        <div>
+          {favoritesArray.length > 0 ? (
+            <div className="container mx-auto p-4 ">
+              <div>
+                <p className="mb-2 opacity-50 font-medium">Filters</p>
+                <CustomSelect handleFilter={handleFilter} />
+              </div>
+              <PsychologistsList data={favoritesArray} />
+            </div>
+          ) : (
+            <div
+              className=" flex items-center justify-center text-3xl font-bold"
+              style={{ height: 'calc(100vh - 72.8px)' }}
+            >
+              Add your favorite psychologists
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

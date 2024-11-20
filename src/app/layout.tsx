@@ -28,7 +28,7 @@ interface LayoutProps {
   children: ReactNode;
   modal: ReactNode;
 }
-//!  changecolorthememodal
+
 export default function RootLayout({ children, modal }: LayoutProps) {
   return (
     <html lang="en">

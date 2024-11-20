@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 interface AppProps {
   children: ReactNode;
 }
-
+//? add user profile where will show appointment, fix color theme, responsive layout
 const App: FC<AppProps> = ({ children }: AppProps) => {
   return (
     <Provider store={store}>

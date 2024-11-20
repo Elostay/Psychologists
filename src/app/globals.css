@@ -52,15 +52,3 @@ select {
   appearance: none;
   background: none;
 }
-
-.active-route:after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -1px;
-  
-  height: 4px;
-  border-radius: 2px;
-  display: block;
-  width: 100%;
-}
