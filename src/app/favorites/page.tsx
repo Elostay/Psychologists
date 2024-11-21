@@ -16,7 +16,7 @@ const Favorites: FC<FavoritesProps> = () => {
   const [favoritesArray, setFavoritesArray] = useState<Psychologist[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [user] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const router = useRouter();
   const currentUser = auth.currentUser?.uid;
 
@@ -85,6 +85,7 @@ const Favorites: FC<FavoritesProps> = () => {
   };
 
   useEffect(() => {
+    if (loading) return;
     if (!user) {
       return router.push('/');
     }
@@ -99,9 +100,7 @@ const Favorites: FC<FavoritesProps> = () => {
       }
     };
     getUserData();
-  }, []);
-
-  if (!user) return <Loading />;
+  }, [loading, user]);
 
   return (
     <div>

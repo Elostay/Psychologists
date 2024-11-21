@@ -17,7 +17,7 @@ const Psychologists: FC<PsychologistsProps> = () => {
   const [psychologistsArray, setPsychologistsArray] = useState<Psychologist[]>(
     []
   );
-  const [user] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const router = useRouter();
 
   const colorTheme = useTheme();
@@ -29,11 +29,12 @@ const Psychologists: FC<PsychologistsProps> = () => {
     }
   };
   useEffect(() => {
+    if (loading) return;
     if (!user) {
       router.push('/');
     }
     setPsychologistsArray(data);
-  }, [data]);
+  }, [data, loading]);
 
   const handleFilter = (filter: string) => {
     switch (filter) {

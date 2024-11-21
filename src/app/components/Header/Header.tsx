@@ -23,6 +23,7 @@ import {
   changeTheme,
   useTheme,
 } from '../ColorThemeProvider/ColorThemeProvider';
+import Loading from '../Loading';
 
 interface HeaderProps {}
 
@@ -40,7 +41,7 @@ const Header: FC<HeaderProps> = () => {
   const [username, setUsername] = useState('');
   const isSmScreen = useMediaQuery('(min-width: 566px)');
 
-  const [user] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
 
   const currentUser = auth.currentUser?.uid;
 
@@ -76,6 +77,7 @@ const Header: FC<HeaderProps> = () => {
   };
 
   useEffect(() => {
+    if (loading) return;
     const getUserData = async () => {
       if (currentUser) {
         const userData = await getUserById(currentUser);
@@ -85,7 +87,7 @@ const Header: FC<HeaderProps> = () => {
       }
     };
     getUserData();
-  }, [currentUser]);
+  }, [currentUser, loading]);
 
   const style = {
     position: 'absolute',
@@ -99,6 +101,7 @@ const Header: FC<HeaderProps> = () => {
     maxHeight: 860,
     overflow: 'auto',
   };
+
   return (
     <header className=" p-4 border-b border-gray-300 xs:bg-white">
       <div className="container mx-auto relative z-50">
