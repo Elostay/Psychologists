@@ -33,7 +33,7 @@ export default function RootLayout({ children, modal }: LayoutProps) {
   return (
     <html lang="en">
       <body
-        className={`${fontClasses} text-primary-black overflow-x-hidden bg-[#f3f3f3]`}
+        className={`${fontClasses}  text-primary-black overflow-x-hidden bg-[#f3f3f3]`}
       >
         <App>
           <Header />

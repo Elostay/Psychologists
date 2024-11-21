@@ -8,16 +8,17 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Loading from '@/app/loading';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ColorThemeProvider from '../ColorThemeProvider';
 interface AppProps {
   children: ReactNode;
 }
-//? add user profile where will show appointment, fix color theme, responsive layout
+//? blink, screens, add user profile where will show appointment, fix color theme
 const App: FC<AppProps> = ({ children }: AppProps) => {
   return (
     <Provider store={store}>
       <Suspense fallback={<Loading />}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          {children}
+          <ColorThemeProvider>{children}</ColorThemeProvider>
           <ToastContainer />
         </LocalizationProvider>
       </Suspense>

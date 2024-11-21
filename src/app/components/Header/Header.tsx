@@ -10,22 +10,19 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebaseConfig';
 import { signOut } from 'firebase/auth';
 import User from '../Icons/User';
-import { Box, IconButton, Menu, MenuItem, Modal, Tooltip } from '@mui/material';
+import {
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
+  Modal,
+  Tooltip,
+  useMediaQuery,
+} from '@mui/material';
 import { getUserById, updateColorTheme } from '@/helpers/fetchUser';
 import { setColorThemeAction } from '@/redux/colorTheme/colorThemeSlice';
 interface HeaderProps {}
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 566,
-  bgcolor: 'background.paper',
-  borderRadius: 5,
-  boxShadow: 24,
-  maxHeight: 860,
-  overflow: 'auto',
-};
+
 const colors = ['orange', 'green', 'blue'];
 
 const colorClassMap: { [key: string]: string } = {
@@ -38,6 +35,7 @@ const Header: FC<HeaderProps> = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [openModal, setOpenModal] = useState(false);
   const [username, setUsername] = useState('');
+  const isSmScreen = useMediaQuery('(min-width: 566px)');
 
   const [user] = useAuthState(auth);
 
@@ -86,11 +84,23 @@ const Header: FC<HeaderProps> = () => {
     getUserData();
   }, [currentUser]);
 
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: isSmScreen ? 566 : 320,
+    bgcolor: 'background.paper',
+    borderRadius: 5,
+    boxShadow: 24,
+    maxHeight: 860,
+    overflow: 'auto',
+  };
   return (
-    <header className=" p-4 border-b border-gray-300">
+    <header className=" p-4 border-b border-gray-300 xs:bg-white">
       <div className="container mx-auto relative z-50">
-        <div className="flex justify-between items-center ">
-          <Link href="/">
+        <div className="flex justify-center items-center sm:justify-between ">
+          <Link href="/" className="hidden sm:block">
             <span
               className={clsx(
                 colorTheme === 'orange' && 'text-primary-orange',
@@ -103,7 +113,7 @@ const Header: FC<HeaderProps> = () => {
             services
           </Link>
           {user && (
-            <div className="flex gap-10">
+            <div className="hidden  sm:flex gap-10 items-center">
               <Link
                 href="/"
                 className={clsx(
@@ -156,9 +166,9 @@ const Header: FC<HeaderProps> = () => {
           )}
 
           {!user && (
-            <div className="flex gap-2 font-medium ">
+            <div className="flex gap-2 font-medium justify-center items-center">
               <Button
-                className="outline-none"
+                className="outline-none whitespace-nowrap"
                 border={true}
                 onClick={handleLogIn}
               >
@@ -188,8 +198,53 @@ const Header: FC<HeaderProps> = () => {
                       >
                         <User width={16} height={16} fill="black" />
                       </div>
-                      <p className="max-w-48 whitespace-nowrap overflow-hidden ">
-                        {username}
+                      <p className="max-w-48 whitespace-nowrap overflow-hidden hidden lg:block">
+                        {/* {username} */}
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Quas, aliquam deleniti! Explicabo repellat est facere
+                        enim temporibus qui, autem iusto et quisquam quo cum
+                        quas expedita ex doloremque nostrum doloribus. Corporis
+                        inventore in fugiat voluptas saepe? Maxime eligendi unde
+                        earum optio, tempora repellendus architecto
+                        reprehenderit temporibus deserunt dolorem, inventore
+                        similique ab, voluptatem hic vel voluptas id laboriosam
+                        blanditiis. Dolores, maxime. Iure incidunt repellendus
+                        hic odio tempore, cumque impedit illum eos esse
+                        veritatis beatae nihil? Quisquam nam quod debitis natus
+                        quibusdam, odio quae quasi, id enim voluptas eos,
+                        voluptates repellendus ducimus. Voluptatibus
+                        perspiciatis nisi vero dignissimos illum corporis
+                        expedita in beatae voluptate eligendi voluptatum
+                        possimus a eveniet, doloribus ipsum, aspernatur quam est
+                        consequatur iste officia tenetur inventore quidem
+                        accusantium? Ab, veniam? Natus perspiciatis assumenda,
+                        velit accusantium tempore voluptatibus modi ducimus sit
+                        libero totam exercitationem porro nisi nihil fuga
+                        temporibus magnam sequi in quod voluptates eveniet,
+                        quisquam nam aut iste asperiores! Illo. Iusto in
+                        laboriosam officiis expedita pariatur ipsum molestiae
+                        voluptate deleniti? Officiis placeat esse, consectetur
+                        blanditiis, alias libero molestiae rerum quia laborum
+                        deserunt officia autem unde perferendis voluptate fugiat
+                        dolor quas. Aperiam excepturi blanditiis voluptatum
+                        accusamus in labore cupiditate libero fugit commodi
+                        deleniti ut necessitatibus totam tempore maiores, sint
+                        cumque repudiandae odio dolores! Provident similique
+                        recusandae asperiores dolore dignissimos, minus sed. Vel
+                        pariatur hic adipisci, accusamus delectus quidem dolorum
+                        nostrum excepturi tempore fuga quaerat exercitationem
+                        perspiciatis. Placeat quia laudantium nulla rerum
+                        necessitatibus. Et sit reprehenderit cumque omnis
+                        consequatur, ea impedit quia. Ut, modi voluptatibus?
+                        Quas aperiam rem asperiores. Debitis explicabo
+                        voluptatibus est distinctio labore animi quidem expedita
+                        deleniti, repudiandae quas saepe laborum blanditiis?
+                        Deleniti quis nam repellendus voluptatibus vel ipsam
+                        animi? Sapiente doloremque nisi aliquid blanditiis est
+                        vitae et possimus modi dolorem ratione temporibus dicta
+                        ut non asperiores nihil dolor reiciendis fugiat
+                        recusandae adipisci, quidem, iure animi sit autem.
+                        Sequi, odit?
                       </p>
                     </div>
                   </IconButton>
@@ -210,6 +265,63 @@ const Header: FC<HeaderProps> = () => {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
+                  <div className="sm:hidden">
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Link
+                        href="/"
+                        className={clsx(
+                          pathname === '/' &&
+                            colorTheme === 'orange' &&
+                            'border-b-8 rounded-lg  border-primary-orange',
+                          pathname === '/' &&
+                            colorTheme === 'blue' &&
+                            'border-b-8 rounded-lg  border-primary-blue',
+                          pathname === '/' &&
+                            colorTheme === 'green' &&
+                            'border-b-8 rounded-lg  border-primary-green'
+                        )}
+                      >
+                        Home
+                      </Link>
+                    </MenuItem>
+
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Link
+                        href="/psychologists"
+                        className={clsx(
+                          pathname === '/psychologists' &&
+                            colorTheme === 'orange' &&
+                            'border-b-8 rounded-lg  border-primary-orange',
+                          pathname === '/psychologists' &&
+                            colorTheme === 'blue' &&
+                            'border-b-8 rounded-lg  border-primary-blue',
+                          pathname === '/psychologists' &&
+                            colorTheme === 'green' &&
+                            'border-b-8 rounded-lg  border-primary-green'
+                        )}
+                      >
+                        Psychologists
+                      </Link>
+                    </MenuItem>
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Link
+                        href="/favorites"
+                        className={clsx(
+                          pathname === '/favorites' &&
+                            colorTheme === 'orange' &&
+                            'border-b-8 rounded-lg  border-primary-orange',
+                          pathname === '/favorites' &&
+                            colorTheme === 'blue' &&
+                            'border-b-8 rounded-lg  border-primary-blue',
+                          pathname === '/favorites' &&
+                            colorTheme === 'green' &&
+                            'border-b-8 rounded-lg  border-primary-green'
+                        )}
+                      >
+                        Favorites
+                      </Link>
+                    </MenuItem>
+                  </div>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <button type="button" onClick={handleProfileClick}>
                       Profile
@@ -238,6 +350,7 @@ const Header: FC<HeaderProps> = () => {
           )}
         </div>
       </div>
+
       {openModal && (
         <Modal open={openModal} onClose={() => setOpenModal(false)}>
           <Box sx={style}>

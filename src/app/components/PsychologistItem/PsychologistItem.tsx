@@ -77,8 +77,8 @@ const PsychologistItem: FC<PsychologistItemProps> = ({ data }) => {
   }, []);
 
   return (
-    <li className="flex gap-6 text-primary-black mb-8 border rounded-xl p-6 bg-white">
-      <div className="p-3 border-2 border-secondary-green  rounded-3xl w-[120px] h-[120px] shrink-0">
+    <li className="flex-row sm:flex gap-6 text-primary-black mb-8 border rounded-xl p-6 bg-white">
+      <div className=" p-3 border-2 border-secondary-green  rounded-3xl w-[120px] h-[120px] shrink-0">
         <div className="rounded-xl overflow-hidden">
           <Image
             width={'96'}
@@ -90,9 +90,9 @@ const PsychologistItem: FC<PsychologistItemProps> = ({ data }) => {
       </div>
 
       <div>
-        <div className="flex justify-between">
+        <div className="md:flex items-center justify-between">
           <p className="opacity-50 font-medium">Psychologist</p>
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 items-center my-4 md:m-0">
             <div className="flex items-center gap-2">
               <Star width={16} height={16} />
               <p>Rating: {rating}</p>
