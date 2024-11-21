@@ -3,14 +3,12 @@
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import * as yup from 'yup';
 import { DateTimePicker, renderTimeViewClock } from '@mui/x-date-pickers';
-
 import CustomModal from '@/app/components/CustomModal';
 import Image from 'next/image';
 import Button from '@/app/components/Button';
-import { useSelector } from 'react-redux';
-import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Bounce, toast } from 'react-toastify';
+import { useTheme } from '@/app/components/ColorThemeProvider/ColorThemeProvider';
 
 interface Values {
   name: string;
@@ -43,7 +41,7 @@ export default function MeetingModal() {
   const name = searchParams.get('name');
   const avatar_url = searchParams.get('avatar_url');
 
-  const colorTheme = useSelector(selectColorThemeValue);
+  const colorTheme = useTheme();
   const router = useRouter();
 
   const handleSubmit = (

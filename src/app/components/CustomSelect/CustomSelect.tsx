@@ -1,9 +1,8 @@
 'use client';
 import { useState } from 'react';
 import ChevronDown from '@/app/components/Icons/ChevronDown';
-import { useSelector } from 'react-redux';
-import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
 import clsx from 'clsx';
+import { useTheme } from '../ColorThemeProvider/ColorThemeProvider';
 
 interface Option {
   value: string;
@@ -15,7 +14,7 @@ interface CustomSelectProps {
 }
 
 const CustomSelect = ({ handleFilter }: CustomSelectProps) => {
-  const colorTheme = useSelector(selectColorThemeValue);
+  const colorTheme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState('A to Z');
 

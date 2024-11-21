@@ -7,9 +7,8 @@ import { auth } from '@/firebaseConfig';
 import { useRouter } from 'next/navigation';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import Button from '@/app/components/Button';
-import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
-import { useSelector } from 'react-redux';
 import { Bounce, toast } from 'react-toastify';
+import { useTheme } from '@/app/components/ColorThemeProvider/ColorThemeProvider';
 
 interface ResetPasswordValue {
   email: string;
@@ -20,7 +19,7 @@ const schemaResetPassword = yup.object().shape({
 
 export default function ForgotPasswordModal() {
   const [sendPasswordResetEmail] = useSendPasswordResetEmail(auth);
-  const colorTheme = useSelector(selectColorThemeValue);
+  const colorTheme = useTheme();
 
   const router = useRouter();
 

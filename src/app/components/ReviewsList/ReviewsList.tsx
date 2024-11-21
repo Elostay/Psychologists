@@ -5,7 +5,7 @@ import Star from '@/app/components/Icons/Star';
 
 interface ReviewsListProps {
   reviews: PsychologistReviews[];
-  colorTheme: string;
+  colorTheme: string | undefined;
 }
 
 const ReviewsList: FC<ReviewsListProps> = ({ reviews, colorTheme }) => {

@@ -2,8 +2,6 @@
 import clsx from 'clsx';
 import { FC, useState, MouseEvent, useEffect } from 'react';
 import Button from '../Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -19,8 +17,13 @@ import {
   Tooltip,
   useMediaQuery,
 } from '@mui/material';
-import { getUserById, updateColorTheme } from '@/helpers/fetchUser';
-import { setColorThemeAction } from '@/redux/colorTheme/colorThemeSlice';
+import { getUserById } from '@/helpers/fetchUser';
+
+import {
+  changeTheme,
+  useTheme,
+} from '../ColorThemeProvider/ColorThemeProvider';
+
 interface HeaderProps {}
 
 const colors = ['orange', 'green', 'blue'];
@@ -41,11 +44,10 @@ const Header: FC<HeaderProps> = () => {
 
   const currentUser = auth.currentUser?.uid;
 
-  const colorTheme = useSelector(selectColorThemeValue);
+  const colorTheme = useTheme();
 
   const router = useRouter();
   const pathname = usePathname();
-  const dispatch = useDispatch();
 
   const handleRegistration = () => {
     router.push('/registration');
@@ -68,8 +70,9 @@ const Header: FC<HeaderProps> = () => {
 
   const changeColorTheme = (e: MouseEvent<HTMLButtonElement>) => {
     const color = e.currentTarget.value;
-    if (currentUser) updateColorTheme(currentUser, color);
-    dispatch(setColorThemeAction(color));
+    localStorage.setItem('colorTheme', color);
+    changeTheme(color);
+    setOpenModal(false);
   };
 
   useEffect(() => {
@@ -199,52 +202,7 @@ const Header: FC<HeaderProps> = () => {
                         <User width={16} height={16} fill="black" />
                       </div>
                       <p className="max-w-48 whitespace-nowrap overflow-hidden hidden lg:block">
-                        {/* {username} */}
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Quas, aliquam deleniti! Explicabo repellat est facere
-                        enim temporibus qui, autem iusto et quisquam quo cum
-                        quas expedita ex doloremque nostrum doloribus. Corporis
-                        inventore in fugiat voluptas saepe? Maxime eligendi unde
-                        earum optio, tempora repellendus architecto
-                        reprehenderit temporibus deserunt dolorem, inventore
-                        similique ab, voluptatem hic vel voluptas id laboriosam
-                        blanditiis. Dolores, maxime. Iure incidunt repellendus
-                        hic odio tempore, cumque impedit illum eos esse
-                        veritatis beatae nihil? Quisquam nam quod debitis natus
-                        quibusdam, odio quae quasi, id enim voluptas eos,
-                        voluptates repellendus ducimus. Voluptatibus
-                        perspiciatis nisi vero dignissimos illum corporis
-                        expedita in beatae voluptate eligendi voluptatum
-                        possimus a eveniet, doloribus ipsum, aspernatur quam est
-                        consequatur iste officia tenetur inventore quidem
-                        accusantium? Ab, veniam? Natus perspiciatis assumenda,
-                        velit accusantium tempore voluptatibus modi ducimus sit
-                        libero totam exercitationem porro nisi nihil fuga
-                        temporibus magnam sequi in quod voluptates eveniet,
-                        quisquam nam aut iste asperiores! Illo. Iusto in
-                        laboriosam officiis expedita pariatur ipsum molestiae
-                        voluptate deleniti? Officiis placeat esse, consectetur
-                        blanditiis, alias libero molestiae rerum quia laborum
-                        deserunt officia autem unde perferendis voluptate fugiat
-                        dolor quas. Aperiam excepturi blanditiis voluptatum
-                        accusamus in labore cupiditate libero fugit commodi
-                        deleniti ut necessitatibus totam tempore maiores, sint
-                        cumque repudiandae odio dolores! Provident similique
-                        recusandae asperiores dolore dignissimos, minus sed. Vel
-                        pariatur hic adipisci, accusamus delectus quidem dolorum
-                        nostrum excepturi tempore fuga quaerat exercitationem
-                        perspiciatis. Placeat quia laudantium nulla rerum
-                        necessitatibus. Et sit reprehenderit cumque omnis
-                        consequatur, ea impedit quia. Ut, modi voluptatibus?
-                        Quas aperiam rem asperiores. Debitis explicabo
-                        voluptatibus est distinctio labore animi quidem expedita
-                        deleniti, repudiandae quas saepe laborum blanditiis?
-                        Deleniti quis nam repellendus voluptatibus vel ipsam
-                        animi? Sapiente doloremque nisi aliquid blanditiis est
-                        vitae et possimus modi dolorem ratione temporibus dicta
-                        ut non asperiores nihil dolor reiciendis fugiat
-                        recusandae adipisci, quidem, iure animi sit autem.
-                        Sequi, odit?
+                        {username}
                       </p>
                     </div>
                   </IconButton>

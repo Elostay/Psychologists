@@ -1,22 +1,16 @@
 'use client';
 import { FC, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
-import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import CheckMark from './components/Icons/CheckMark';
 import People from './components/Icons/People';
-import { auth } from '@/firebaseConfig';
-import { getColorTheme } from '@/helpers/fetchUser';
-import { setColorThemeAction } from '@/redux/colorTheme/colorThemeSlice';
+import { useTheme } from './components/ColorThemeProvider/ColorThemeProvider';
 
 interface HomeProps {}
 
 const Home: FC<HomeProps> = () => {
-  const currentUser = auth.currentUser?.uid;
-  const dispatch = useDispatch();
+  const colorTheme = useTheme();
 
-  const colorTheme = useSelector(selectColorThemeValue);
   const [checkMarkColor, setCheckMarkColor] = useState('#FC832C');
 
   useEffect(() => {
@@ -25,16 +19,6 @@ const Home: FC<HomeProps> = () => {
     if (colorTheme === 'green') setCheckMarkColor('#54be96');
   }, [colorTheme]);
 
-  useEffect(() => {
-    const fetchColorTheme = async () => {
-      if (currentUser) {
-        const colorThemeData = await getColorTheme(currentUser);
-        dispatch(setColorThemeAction(colorThemeData));
-      }
-    };
-
-    fetchColorTheme();
-  }, [currentUser]);
   return (
     <main className="relative xl:static ">
       <div className="container mx-auto p-4 ">

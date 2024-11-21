@@ -4,8 +4,6 @@ import OpenedEye from '../Icons/OpenedEye';
 import ClosedEye from '../Icons/ClosedEye';
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import * as yup from 'yup';
-import { useSelector } from 'react-redux';
-import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
 import Button from '../Button';
 import {
   useCreateUserWithEmailAndPassword,
@@ -14,7 +12,6 @@ import {
 import { auth, db } from '@/firebaseConfig';
 import { useRouter } from 'next/navigation';
 import {
-  getFirestore,
   doc,
   setDoc,
   query,
@@ -22,7 +19,8 @@ import {
   where,
   getDocs,
 } from 'firebase/firestore';
-import { Bounce, toast, ToastContainer } from 'react-toastify';
+import { Bounce, toast } from 'react-toastify';
+import { useTheme } from '../ColorThemeProvider/ColorThemeProvider';
 
 interface FormProps {
   header: string;
@@ -48,7 +46,7 @@ const ModalForm: FC<FormProps> = ({
     useCreateUserWithEmailAndPassword(auth);
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
   const router = useRouter();
-  const colorTheme = useSelector(selectColorThemeValue);
+  const colorTheme = useTheme();
 
   const handleShowPassword = () => {
     setShowPassword(prev => !prev);

@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import PsychologistItem from '../PsychologistItem';
 import { Psychologist } from '@/interfaces/interfaces';
-import Loading from '@/app/loading';
+import Loading from '../Loading';
+
 interface PsychologistsListProps {
   data: Psychologist[];
 }

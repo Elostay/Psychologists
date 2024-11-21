@@ -2,17 +2,15 @@
 
 import { FC, useEffect, useState } from 'react';
 import Button from '../components/Button';
-
 import { Psychologist } from '@/interfaces/interfaces';
 import PsychologistsList from '../components/PsychologistsList';
 import CustomSelect from '../components/CustomSelect';
-import Loading from '../loading';
+import Loading from '../components/Loading/Loading';
 import usePaginatedData from '@/helpers/fetchData';
-import { useSelector } from 'react-redux';
-import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebaseConfig';
 import { useRouter } from 'next/navigation';
+import { useTheme } from '../components/ColorThemeProvider/ColorThemeProvider';
 interface PsychologistsProps {}
 
 const Psychologists: FC<PsychologistsProps> = () => {
@@ -22,7 +20,7 @@ const Psychologists: FC<PsychologistsProps> = () => {
   const [user] = useAuthState(auth);
   const router = useRouter();
 
-  const colorTheme = useSelector(selectColorThemeValue);
+  const colorTheme = useTheme();
 
   const { data, fetchData, hasMore } = usePaginatedData();
   const loadMore = () => {

@@ -3,23 +3,21 @@ import { FC, useEffect, useState } from 'react';
 import { Psychologist } from '@/interfaces/interfaces';
 import Image from 'next/image';
 import Star from '@/app/components/Icons/Star';
-import { useSelector } from 'react-redux';
-import { selectColorThemeValue } from '@/redux/colorTheme/selectors';
 import Heart from '@/app/components/Icons/Heart';
 import AboutPsycholog from '../AboutPsycholog';
 import ReviewsList from '../ReviewsList';
 import Button from '@/app/components/Button';
-
 import { useRouter } from 'next/navigation';
 import { getUserById, toggleFavorite } from '@/helpers/fetchUser';
 import { auth } from '@/firebaseConfig';
+import { useTheme } from '../ColorThemeProvider/ColorThemeProvider';
 
 interface PsychologistItemProps {
   data: Psychologist;
 }
 
 const PsychologistItem: FC<PsychologistItemProps> = ({ data }) => {
-  const colorTheme = useSelector(selectColorThemeValue);
+  const colorTheme = useTheme();
   const [moneyColor, setMoneyColor] = useState('text-primary-orange');
   const [isFavorite, setIsFavorite] = useState(false);
   const [heartColor, setHeartColor] = useState('#FC832C');

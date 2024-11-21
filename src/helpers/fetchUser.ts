@@ -70,25 +70,25 @@ const getFavorites = async (psychologistIds: string[]) => {
   }
 };
 
-const updateColorTheme = async (currentUser: string, colorTheme: string) => {
-  if (currentUser) {
-    try {
-      const userDocRef = doc(db, 'users', currentUser);
-      const userDoc = await getDoc(userDocRef);
+// const updateColorTheme = async (currentUser: string, colorTheme: string) => {
+//   if (currentUser) {
+//     try {
+//       const userDocRef = doc(db, 'users', currentUser);
+//       const userDoc = await getDoc(userDocRef);
 
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        const colorThemeData = userData?.colorTheme || 'orange';
-        if (colorThemeData !== colorTheme)
-          await updateDoc(userDocRef, {
-            colorTheme,
-          });
-      }
-    } catch (error) {
-      console.error('Error adding to favorites:', error);
-    }
-  }
-};
+//       if (userDoc.exists()) {
+//         const userData = userDoc.data();
+//         const colorThemeData = userData?.colorTheme || 'orange';
+//         if (colorThemeData !== colorTheme)
+//           await updateDoc(userDocRef, {
+//             colorTheme,
+//           });
+//       }
+//     } catch (error) {
+//       console.error('Error adding to favorites:', error);
+//     }
+//   }
+// };
 
 const getColorTheme = async (currentUser: string) => {
   if (currentUser) {
@@ -108,6 +108,6 @@ export {
   getUserById,
   toggleFavorite,
   getFavorites,
-  updateColorTheme,
+  //   updateColorTheme,
   getColorTheme,
 };
