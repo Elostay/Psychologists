@@ -1,4 +1,5 @@
 import { db } from '@/firebaseConfig';
+import { PsychologistMeeting } from '@/interfaces/interfaces';
 import { child, get, getDatabase, ref } from 'firebase/database';
 import {
   arrayRemove,
@@ -104,6 +105,46 @@ const getColorTheme = async (currentUser: string) => {
     }
   }
 };
+
+export const createMeetings = async (
+  currentUser: string,
+  psychologist: PsychologistMeeting
+) => {
+  const {
+    name,
+    avatar_url,
+    price_per_hour,
+    rating,
+    specialization,
+    id,
+    meetingTime,
+  } = psychologist;
+  if (currentUser) {
+    try {
+      const userDocRef = doc(db, 'users', currentUser);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const newMeeting = {
+          name,
+          avatar_url,
+          price_per_hour,
+          rating,
+          specialization,
+          id,
+          meetingTime,
+        };
+
+        await updateDoc(userDocRef, {
+          meetings: arrayUnion(newMeeting),
+        });
+      }
+    } catch (error) {
+      console.error('Error creating meeting:', error);
+    }
+  }
+};
+
 export {
   getUserById,
   toggleFavorite,

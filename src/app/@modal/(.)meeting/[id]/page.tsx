@@ -9,6 +9,8 @@ import Button from '@/app/components/Button';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Bounce, toast } from 'react-toastify';
 import { useTheme } from '@/app/components/ColorThemeProvider/ColorThemeProvider';
+import { auth } from '@/firebaseConfig';
+import { createMeetings } from '@/helpers/fetchUser';
 
 interface Values {
   name: string;
@@ -40,11 +42,17 @@ export default function MeetingModal() {
   const searchParams = useSearchParams();
   const name = searchParams.get('name');
   const avatar_url = searchParams.get('avatar_url');
+  const price_per_hour = searchParams.get('price_per_hour');
+  const rating = searchParams.get('rating');
+  const specialization = searchParams.get('specialization');
+  const psycologId = searchParams.get('id');
+
+  const currentUser = auth.currentUser;
 
   const colorTheme = useTheme();
   const router = useRouter();
 
-  const handleSubmit = (
+  const handleSubmit = async (
     values: Values,
     { resetForm }: FormikHelpers<Values>
   ) => {
@@ -59,6 +67,24 @@ export default function MeetingModal() {
       theme: 'colored',
       transition: Bounce,
     });
+    const { meetingTime, comment, email, name: username, phone } = values;
+    const psychologist = {
+      psycologName: name,
+      avatar_url,
+      price_per_hour,
+      rating,
+      specialization,
+      id: psycologId,
+      meetingTime,
+      username,
+      comment,
+      email,
+      phone,
+    };
+    //!FIXME
+    //!FIXME
+    //!FIXME
+    await createMeetings(currentUser, psychologist);
     router.back();
     resetForm();
   };

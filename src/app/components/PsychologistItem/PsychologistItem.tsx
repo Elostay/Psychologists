@@ -7,7 +7,7 @@ import Heart from '@/app/components/Icons/Heart';
 import AboutPsycholog from '../AboutPsycholog';
 import ReviewsList from '../ReviewsList';
 import Button from '@/app/components/Button';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { getUserById, toggleFavorite } from '@/helpers/fetchUser';
 import { auth } from '@/firebaseConfig';
 import { useTheme } from '../ColorThemeProvider/ColorThemeProvider';
@@ -24,6 +24,7 @@ const PsychologistItem: FC<PsychologistItemProps> = ({ data }) => {
   const [isReadMore, setIsReadMore] = useState(false);
 
   const currentUser = auth.currentUser?.uid;
+  const pathname = usePathname();
 
   const router = useRouter();
 
@@ -60,18 +61,24 @@ const PsychologistItem: FC<PsychologistItemProps> = ({ data }) => {
   };
 
   const handleOpenModal = () => {
-    router.push(`/meeting/${id}?name=${name}&avatar_url=${avatar_url}`);
+    router.push(
+      `/meeting/${id}?name=${name}&avatar_url=${avatar_url}&price_per_hour=${price_per_hour}&rating=${rating}&specialization=${specialization}&id=${id}`
+    );
   };
 
   useEffect(() => {
-    const getFavorites = async () => {
-      if (currentUser) {
-        const data = await getUserById(currentUser);
-        const favorite = data?.favorites.includes(id);
-        if (favorite) setIsFavorite(favorite);
-      }
-    };
-    getFavorites();
+    if (pathname === '/favorites') {
+      const getFavorites = async () => {
+        if (currentUser) {
+          const data = await getUserById(currentUser);
+          if (data?.favorites) {
+            const favorite = data?.favorites.includes(id);
+            if (favorite) setIsFavorite(favorite);
+          }
+        }
+      };
+      getFavorites();
+    }
   }, []);
 
   return (

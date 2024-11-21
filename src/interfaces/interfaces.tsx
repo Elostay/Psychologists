@@ -23,3 +23,13 @@ export interface SvgProps {
   fill?: string;
   stroke?: string | null;
 }
+
+export interface PsychologistMeeting {
+  name: string;
+  avatar_url: string;
+  price_per_hour: number;
+  rating: number;
+  specialization: string;
+  id: string;
+  meetingTime: Date;
+}
