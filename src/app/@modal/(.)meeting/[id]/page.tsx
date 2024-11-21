@@ -17,7 +17,7 @@ interface Values {
   phone: string;
   email: string;
   comment: string;
-  meetingTime: Date | null;
+  meetingTime: string | null;
 }
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
@@ -47,7 +47,7 @@ export default function MeetingModal() {
   const specialization = searchParams.get('specialization');
   const psycologId = searchParams.get('id');
 
-  const currentUser = auth.currentUser;
+  const currentUser = auth.currentUser?.uid;
 
   const colorTheme = useTheme();
   const router = useRouter();
@@ -68,6 +68,9 @@ export default function MeetingModal() {
       transition: Bounce,
     });
     const { meetingTime, comment, email, name: username, phone } = values;
+
+    const convertedMeetingTime = meetingTime?.toString();
+
     const psychologist = {
       psycologName: name,
       avatar_url,
@@ -75,16 +78,17 @@ export default function MeetingModal() {
       rating,
       specialization,
       id: psycologId,
-      meetingTime,
+      meetingTime: convertedMeetingTime,
       username,
       comment,
       email,
       phone,
     };
+    console.log('💖 ~ MeetingModal ~ psychologist:', psychologist);
     //!FIXME
     //!FIXME
     //!FIXME
-    await createMeetings(currentUser, psychologist);
+    if (currentUser) await createMeetings(currentUser, psychologist);
     router.back();
     resetForm();
   };

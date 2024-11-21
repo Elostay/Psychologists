@@ -25,11 +25,15 @@ export interface SvgProps {
 }
 
 export interface PsychologistMeeting {
-  name: string;
-  avatar_url: string;
-  price_per_hour: number;
-  rating: number;
-  specialization: string;
-  id: string;
-  meetingTime: Date;
+  psycologName: string | null;
+  avatar_url: string | null;
+  price_per_hour: string | null;
+  rating: string | null;
+  specialization: string | null;
+  id: string | null;
+  meetingTime: string | undefined;
+  username: string | null;
+  comment: string | null;
+  email: string | null;
+  phone: string | null;
 }

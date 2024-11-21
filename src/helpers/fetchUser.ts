@@ -111,13 +111,17 @@ export const createMeetings = async (
   psychologist: PsychologistMeeting
 ) => {
   const {
-    name,
+    psycologName,
     avatar_url,
     price_per_hour,
     rating,
     specialization,
     id,
     meetingTime,
+    username,
+    comment,
+    email,
+    phone,
   } = psychologist;
   if (currentUser) {
     try {
@@ -126,13 +130,17 @@ export const createMeetings = async (
 
       if (userDoc.exists()) {
         const newMeeting = {
-          name,
+          psycologName,
           avatar_url,
           price_per_hour,
           rating,
           specialization,
           id,
           meetingTime,
+          username,
+          comment,
+          email,
+          phone,
         };
 
         await updateDoc(userDocRef, {
