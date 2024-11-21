@@ -15,7 +15,7 @@ import { auth } from '@/firebaseConfig';
 interface AppProps {
   children: ReactNode;
 }
-//? blink, screens, add user profile where will show appointment
+//?  add user profile where will show appointment
 const App: FC<AppProps> = ({ children }: AppProps) => {
   const [user, loading] = useAuthState(auth);
   const [contentLoaded, setContentLoaded] = useState(false);
