@@ -187,7 +187,6 @@ const deleteMeeting = async (
         );
 
         await updateDoc(userDocRef, { meetings: updatedMeetings });
-        console.log('💖 ~ updatedMeetings:', updatedMeetings);
       }
     } catch (error) {
       console.log('Unable delete meeting', error);
