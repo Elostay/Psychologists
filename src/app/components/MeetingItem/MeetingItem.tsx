@@ -45,8 +45,8 @@ const MeetingItem: FC<MeetingItemProps> = ({ data, onDelete }) => {
     .padStart(2, '0')}`;
 
   return (
-    <li className="flex-row sm:flex justify-between gap-10 text-primary-black mb-8 border rounded-xl p-6 bg-white">
-      <div className=" flex gap-6">
+    <li className="flex-row lg:flex justify-between gap-10 text-primary-black mb-8 border rounded-xl p-6 bg-white">
+      <div className="flex-row lg:flex gap-6">
         <div className=" p-3 border-2 border-secondary-green  rounded-3xl w-[120px] h-[120px] shrink-0">
           <div className="rounded-xl overflow-hidden">
             <Image
@@ -84,7 +84,7 @@ const MeetingItem: FC<MeetingItemProps> = ({ data, onDelete }) => {
           </ul>
         </div>
       </div>
-      <div className=" ">
+      <div>
         <p>{formattedDate}</p>
         <p className="text-xl font-bold">{username}</p>
         <p>{email}</p>

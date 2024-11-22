@@ -15,20 +15,20 @@ import { auth } from '@/firebaseConfig';
 interface AppProps {
   children: ReactNode;
 }
-//?  add responsive user profile, add if u already have an appointment - u cant do it in the same time. must be diference 1 hour, button profile doesnt work
+
 const App: FC<AppProps> = ({ children }: AppProps) => {
   const [user, loading] = useAuthState(auth);
-  const [contentLoaded, setContentLoaded] = useState(false);
+  //   const [contentLoaded, setContentLoaded] = useState(false);
 
-  useEffect(() => {
-    if (!loading && user) {
-      setContentLoaded(true);
-    }
-  }, [loading, user]);
+  //   useEffect(() => {
+  //     if (!loading && user) {
+  //       setContentLoaded(true);
+  //     }
+  //   }, [loading, user]);
 
-  if (!contentLoaded) {
-    return <Loading />;
-  }
+  //   if (!contentLoaded) {
+  //     return <Loading />;
+  //   }
   return (
     <ColorThemeProvider>
       <Provider store={store}>

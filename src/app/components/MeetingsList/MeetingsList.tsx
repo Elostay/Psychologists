@@ -47,7 +47,7 @@ const MeetingsList: FC<MeetingListProps> = ({ data }) => {
       {data ? (
         meetings.map((meeting: PsychologistMeeting) => (
           <MeetingItem
-            key={meeting.id}
+            key={meeting.meetingTime}
             data={meeting}
             onDelete={handleCancelMeeting}
           />

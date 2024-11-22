@@ -55,16 +55,17 @@ const Header: FC<HeaderProps> = () => {
     router.push('/login');
   };
 
-  const handleProfileClick = () => {
-    router.push('/profile');
-  };
-
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleProfileClick = () => {
+    router.push('/profile');
+    handleCloseUserMenu();
   };
 
   const changeColorTheme = (e: MouseEvent<HTMLButtonElement>) => {
@@ -281,11 +282,7 @@ const Header: FC<HeaderProps> = () => {
                       </Link>
                     </MenuItem>
                   </div>
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <button type="button" onClick={handleProfileClick}>
-                      Profile
-                    </button>
-                  </MenuItem>
+                  <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <button type="button" onClick={() => setOpenModal(true)}>
                       Change color theme

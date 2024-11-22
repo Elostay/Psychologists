@@ -101,7 +101,7 @@ const Psychologists: FC<PsychologistsProps> = () => {
   };
   if (!user) return <Loading />;
   return (
-    <div>
+    <>
       {psychologistsArray.length > 0 ? (
         <div className="container mx-auto p-4 ">
           <div>
@@ -124,7 +124,7 @@ const Psychologists: FC<PsychologistsProps> = () => {
       ) : (
         <Loading />
       )}
-    </div>
+    </>
   );
 };
 

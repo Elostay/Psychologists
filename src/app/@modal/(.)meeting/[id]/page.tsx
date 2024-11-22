@@ -10,7 +10,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Bounce, toast } from 'react-toastify';
 import { useTheme } from '@/app/components/ColorThemeProvider/ColorThemeProvider';
 import { auth } from '@/firebaseConfig';
-import { createMeetings } from '@/helpers/fetchUser';
+import { createMeetings, getUserById } from '@/helpers/fetchUser';
+import { useEffect, useState } from 'react';
+import { PsychologistMeeting } from '@/interfaces/interfaces';
 
 interface Values {
   name: string;
@@ -39,6 +41,8 @@ const initialValues: Values = {
 };
 
 export default function MeetingModal() {
+  const [disabledHours, setDisabledHours] = useState<number[]>([]);
+
   const searchParams = useSearchParams();
   const name = searchParams.get('name');
   const avatar_url = searchParams.get('avatar_url');
@@ -58,7 +62,7 @@ export default function MeetingModal() {
   ) => {
     toast.success('Appointment registration is successful', {
       position: 'top-right',
-      autoClose: 5000,
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -90,6 +94,32 @@ export default function MeetingModal() {
     resetForm();
   };
 
+  useEffect(() => {
+    const fetchUserMeeting = async () => {
+      const disabledHours: number[] = [];
+      if (currentUser) {
+        const userData = await getUserById(currentUser);
+
+        const userMeetings = userData?.meetings || [];
+        const filteredMeetings = userMeetings.filter(
+          (meeting: PsychologistMeeting) =>
+            meeting.id === psycologId && meeting.meetingTime
+        );
+
+        filteredMeetings.forEach((meeting: PsychologistMeeting) => {
+          const time = meeting.meetingTime;
+
+          if (time) {
+            const formattedTime = new Date(time);
+
+            disabledHours.push(formattedTime.getHours());
+          }
+        });
+        setDisabledHours(disabledHours);
+      }
+    };
+    fetchUserMeeting();
+  }, []);
   return (
     <CustomModal>
       <div className=" p-11 ">
@@ -173,6 +203,20 @@ export default function MeetingModal() {
                         form.setFieldValue(field.name, newValue)
                       }
                       value={field.value}
+                      shouldDisableTime={(timeValue, view) => {
+                        if (view === 'hours') {
+                          const hour = timeValue.hour();
+                          if (hour >= 18 || hour < 8) {
+                            return true;
+                          }
+                          return disabledHours.includes(hour);
+                        }
+                        if (view === 'minutes') {
+                          const minute = timeValue.minute();
+                          return minute !== 0;
+                        }
+                        return false;
+                      }}
                     />
                   )}
                 </Field>
