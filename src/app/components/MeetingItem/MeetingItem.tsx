@@ -38,9 +38,7 @@ const MeetingItem: FC<MeetingItemProps> = ({ data, onDelete }) => {
 
   const date = new Date(meetingTime ?? '');
 
-  const formattedDate = `${date.getDate()} ${date.toLocaleString('uk-UA', {
-    month: 'long',
-  })} ${date.getFullYear()}, ${date.getHours().toString().padStart(2, '0')}:${date
+  const formattedDate = `${date.toLocaleDateString()}, ${date.getHours().toString().padStart(2, '0')}:${date
     .getMinutes()
     .toString()
     .padStart(2, '0')}`;
@@ -86,7 +84,7 @@ const MeetingItem: FC<MeetingItemProps> = ({ data, onDelete }) => {
         </div>
       </div>
       <div className="max-w-[300px] break-words">
-        <p className="font-bold text-2xl">{formattedDate}</p>
+        <p className="font-bold text-2xl mb-3">{formattedDate}</p>
         <p className="w-full ">{username}</p>
         <p>{email}</p>
         <p>{phone}</p>

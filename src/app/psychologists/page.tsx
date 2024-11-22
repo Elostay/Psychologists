@@ -28,12 +28,6 @@ const Psychologists: FC<PsychologistsProps> = () => {
       fetchData();
     }
   };
-  useEffect(() => {
-    if (!user) {
-      router.push('/');
-    }
-    setPsychologistsArray(data);
-  }, [data, loading]);
 
   const handleFilter = (filter: string) => {
     switch (filter) {
@@ -98,6 +92,12 @@ const Psychologists: FC<PsychologistsProps> = () => {
         break;
     }
   };
+  useEffect(() => {
+    if (!user) {
+      router.push('/');
+    }
+    setPsychologistsArray(data);
+  }, [data, loading]);
 
   return (
     <>

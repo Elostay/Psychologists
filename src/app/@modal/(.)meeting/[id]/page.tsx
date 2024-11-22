@@ -24,7 +24,10 @@ interface Values {
 }
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
-  phone: yup.string().required('Phone is required'),
+  phone: yup
+    .string()
+    .matches(/^\d+$/, 'Phone number must contain only numbers')
+    .required('Phone is required'),
   meetingTime: yup
     .date()
     .min(new Date(), 'Choose a future meeting time')
@@ -177,7 +180,8 @@ export default function MeetingModal() {
               <div>
                 <div className="p-4 border rounded-2xl mb-4">
                   <Field
-                    type="number"
+                    type="tel"
+                    pattern="[0-9]*"
                     name="phone"
                     placeholder="Phone number"
                     className="outline-none w-full"

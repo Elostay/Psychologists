@@ -16,7 +16,7 @@ interface CustomSelectProps {
 const CustomSelect = ({ handleFilter }: CustomSelectProps) => {
   const colorTheme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('A to Z');
+  const [selectedOption, setSelectedOption] = useState('Filter');
 
   const options = [
     { value: 'a-z', label: 'A to Z' },
@@ -37,7 +37,7 @@ const CustomSelect = ({ handleFilter }: CustomSelectProps) => {
     <div className="relative">
       <div
         className={clsx(
-          'inline-flex justify-between py-3 px-7 mb-8 rounded-3xl text-primary-white outline-none cursor-pointer items-center xl:min-w-52',
+          'inline-flex justify-between py-3 px-7 mb-8 rounded-3xl text-primary-white outline-none cursor-pointer items-center xl:min-w-52 text-lg',
           colorTheme === 'orange' && 'bg-primary-orange',
           colorTheme === 'green' && 'bg-primary-green',
           colorTheme === 'blue' && 'bg-primary-blue'

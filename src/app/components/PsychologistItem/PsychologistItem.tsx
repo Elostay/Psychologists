@@ -24,7 +24,6 @@ const PsychologistItem: FC<PsychologistItemProps> = ({ data }) => {
   const [isReadMore, setIsReadMore] = useState(false);
 
   const currentUser = auth.currentUser?.uid;
-  const pathname = usePathname();
 
   const router = useRouter();
 
@@ -67,18 +66,16 @@ const PsychologistItem: FC<PsychologistItemProps> = ({ data }) => {
   };
 
   useEffect(() => {
-    if (pathname === '/favorites') {
-      const getFavorites = async () => {
-        if (currentUser) {
-          const data = await getUserById(currentUser);
-          if (data?.favorites) {
-            const favorite = data?.favorites.includes(id);
-            if (favorite) setIsFavorite(favorite);
-          }
+    const getFavorites = async () => {
+      if (currentUser) {
+        const data = await getUserById(currentUser);
+        if (data?.favorites) {
+          const favorite = data?.favorites.includes(id);
+          if (favorite) setIsFavorite(favorite);
         }
-      };
-      getFavorites();
-    }
+      }
+    };
+    getFavorites();
   }, []);
 
   return (
