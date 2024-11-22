@@ -8,7 +8,7 @@ import Button from '../Button';
 
 interface MeetingItemProps {
   data: PsychologistMeeting;
-  onDelete: (id: string) => void;
+  onDelete: (id: string, meetingTime: string, uniqueMeetingId: string) => void;
 }
 
 const MeetingItem: FC<MeetingItemProps> = ({ data, onDelete }) => {
@@ -24,6 +24,7 @@ const MeetingItem: FC<MeetingItemProps> = ({ data, onDelete }) => {
     comment,
     email,
     phone,
+    uniqueMeetingId,
   } = data;
 
   const colorTheme = useTheme();
@@ -45,7 +46,7 @@ const MeetingItem: FC<MeetingItemProps> = ({ data, onDelete }) => {
     .padStart(2, '0')}`;
 
   return (
-    <li className="flex-row lg:flex justify-between gap-10 text-primary-black mb-8 border rounded-xl p-6 bg-white">
+    <li className="flex-row lg:flex justify-between gap-10 text-primary-black mb-8 border rounded-xl p-6 bg-white ">
       <div className="flex-row lg:flex gap-6">
         <div className=" p-3 border-2 border-secondary-green  rounded-3xl w-[120px] h-[120px] shrink-0">
           <div className="rounded-xl overflow-hidden">
@@ -58,16 +59,16 @@ const MeetingItem: FC<MeetingItemProps> = ({ data, onDelete }) => {
           </div>
         </div>
 
-        <div className="">
+        <div>
           <div className="md:flex items-center justify-between">
-            <p className="opacity-50 font-medium">Psychologist</p>
+            <p className="opacity-50 font-medium mr-4">Psychologist</p>
             <div className="flex gap-4 items-center my-4 md:m-0">
               <div className="flex items-center gap-2">
                 <Star width={16} height={16} />
-                <p>Rating: {rating}</p>
+                <p className=" whitespace-nowrap">Rating: {rating}</p>
               </div>
               <p>|</p>
-              <div className="flex gap-2">
+              <div className="flex gap-2 whitespace-nowrap">
                 Price/1 hour:
                 <p className={moneyColor}>{price_per_hour}$</p>
               </div>
@@ -84,15 +85,15 @@ const MeetingItem: FC<MeetingItemProps> = ({ data, onDelete }) => {
           </ul>
         </div>
       </div>
-      <div>
-        <p>{formattedDate}</p>
-        <p className="text-xl font-bold">{username}</p>
+      <div className="max-w-[300px] break-words">
+        <p className="font-bold text-2xl">{formattedDate}</p>
+        <p className="w-full ">{username}</p>
         <p>{email}</p>
         <p>{phone}</p>
         <p>Your comment:</p>
         <p className="mb-4">{comment}</p>
         <Button
-          onClick={() => onDelete(id)}
+          onClick={() => onDelete(id, meetingTime || '', uniqueMeetingId)}
           background="bg-red-500"
           color="text-white"
         >

@@ -152,8 +152,20 @@ const ModalForm: FC<FormProps> = ({
   return (
     <div className=" p-16">
       <h2 className="font-medium text-[40px] mb-5">{header}</h2>
-      <p className="opacity-50 mb-10">{text}</p>
-
+      <p className="opacity-50 mb-5">{text}</p>
+      {isRegistration && (
+        <div>
+          <div className="mb-5 text-red-500">
+            <p>Real mail is NOT required Real </p>
+            <p>Real password is NOT required</p>
+          </div>
+          <div className="opacity-50 mb-10">
+            <p>Example:</p>
+            <p>Anastasiia@mail.com</p>
+            <p>111111</p>
+          </div>
+        </div>
+      )}
       <Formik
         validationSchema={schema}
         initialValues={initialValues}

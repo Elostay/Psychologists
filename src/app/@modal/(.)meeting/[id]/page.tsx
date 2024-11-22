@@ -13,6 +13,7 @@ import { auth } from '@/firebaseConfig';
 import { createMeetings, getUserById } from '@/helpers/fetchUser';
 import { useEffect, useState } from 'react';
 import { PsychologistMeeting } from '@/interfaces/interfaces';
+import { uid } from 'uid';
 
 interface Values {
   name: string;
@@ -73,6 +74,7 @@ export default function MeetingModal() {
     });
     const { meetingTime, comment, email, name: username, phone } = values;
 
+    const uniqueMeetingId = uid();
     const convertedMeetingTime = meetingTime?.toString();
 
     const psychologist = {
@@ -87,6 +89,7 @@ export default function MeetingModal() {
       comment,
       email,
       phone,
+      uniqueMeetingId,
     };
 
     if (currentUser) await createMeetings(currentUser, psychologist);

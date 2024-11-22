@@ -8,7 +8,7 @@ import { auth } from '@/firebaseConfig';
 import { deleteMeeting } from '@/helpers/fetchUser';
 import { Bounce, toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
-
+import { uid } from 'uid';
 interface MeetingListProps {
   data: PsychologistMeeting[];
 }
@@ -19,17 +19,25 @@ const MeetingsList: FC<MeetingListProps> = ({ data }) => {
   const currentUser = auth.currentUser?.uid;
   const router = useRouter();
 
-  const handleCancelMeeting = async (id: string) => {
+  const handleCancelMeeting = async (
+    id: string,
+    meetingTime: string,
+    uniqueMeetingId: string
+  ) => {
     if (currentUser) {
       setMeetings(prevMeetings => {
-        const filteredMeetings = prevMeetings.filter(
-          meeting => meeting.id !== id
-        );
+        const filteredMeetings = prevMeetings.filter(meeting => {
+          return !(
+            meeting.id === id &&
+            meeting.meetingTime === meetingTime &&
+            meeting.uniqueMeetingId === uniqueMeetingId
+          );
+        });
         if (filteredMeetings.length === 0) router.push('/psychologists');
 
         return filteredMeetings;
       });
-      await deleteMeeting(currentUser, id);
+      await deleteMeeting(currentUser, id, meetingTime, uniqueMeetingId);
 
       toast.info('Meeting was canceled', {
         position: 'top-right',
@@ -52,13 +60,16 @@ const MeetingsList: FC<MeetingListProps> = ({ data }) => {
   return (
     <ul>
       {data ? (
-        meetings.map((meeting: PsychologistMeeting) => (
-          <MeetingItem
-            key={meeting.meetingTime}
-            data={meeting}
-            onDelete={handleCancelMeeting}
-          />
-        ))
+        meetings.map((meeting: PsychologistMeeting) => {
+          const uniqueId = uid();
+          return (
+            <MeetingItem
+              key={uniqueId}
+              data={meeting}
+              onDelete={handleCancelMeeting}
+            />
+          );
+        })
       ) : (
         <Loading />
       )}

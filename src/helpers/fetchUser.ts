@@ -123,6 +123,7 @@ const createMeetings = async (
     comment,
     email,
     phone,
+    uniqueMeetingId,
   } = psychologist;
   if (currentUser) {
     try {
@@ -142,6 +143,7 @@ const createMeetings = async (
           comment,
           email,
           phone,
+          uniqueMeetingId,
         };
 
         await updateDoc(userDocRef, {
@@ -154,7 +156,12 @@ const createMeetings = async (
   }
 };
 
-const deleteMeeting = async (currentUser: string, psychologistId: string) => {
+const deleteMeeting = async (
+  currentUser: string,
+  psychologistId: string,
+  meetingTime: string,
+  uniqueMeetingId: string
+) => {
   if (currentUser) {
     try {
       const userDocRef = doc(db, 'users', currentUser);
@@ -166,10 +173,21 @@ const deleteMeeting = async (currentUser: string, psychologistId: string) => {
         const meetings = userData.meetings || [];
 
         const updatedMeetings = meetings.filter(
-          (meeting: { id: string }) => meeting.id !== psychologistId
+          (meeting: {
+            id: string;
+            meetingTime: string;
+            uniqueMeetingId: string;
+          }) => {
+            return !(
+              meeting.id === psychologistId &&
+              meeting.meetingTime === meetingTime &&
+              meeting.uniqueMeetingId === uniqueMeetingId
+            );
+          }
         );
 
         await updateDoc(userDocRef, { meetings: updatedMeetings });
+        console.log('💖 ~ updatedMeetings:', updatedMeetings);
       }
     } catch (error) {
       console.log('Unable delete meeting', error);

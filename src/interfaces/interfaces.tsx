@@ -38,4 +38,5 @@ export interface PsychologistMeeting {
   comment: string | null;
   email: string | null;
   phone: string | null;
+  uniqueMeetingId: string;
 }
