@@ -1,6 +1,9 @@
 'use client';
 
-import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
+import {
+  useAuthState,
+  useSendPasswordResetEmail,
+} from 'react-firebase-hooks/auth';
 import CustomModal from '@/app/components/CustomModal';
 import * as yup from 'yup';
 import { auth } from '@/firebaseConfig';
@@ -9,6 +12,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import Button from '@/app/components/Button';
 import { Bounce, toast } from 'react-toastify';
 import { useTheme } from '@/app/components/ColorThemeProvider/ColorThemeProvider';
+import { useEffect } from 'react';
 
 interface ResetPasswordValue {
   email: string;
@@ -22,6 +26,7 @@ export default function ForgotPasswordModal() {
   const colorTheme = useTheme();
 
   const router = useRouter();
+  const [user] = useAuthState(auth);
 
   const handleResetPassword = async (values: ResetPasswordValue) => {
     const { email } = values;
@@ -58,7 +63,11 @@ export default function ForgotPasswordModal() {
       console.error('Error sending password reset email:', error);
     }
   };
-
+  useEffect(() => {
+    if (user) {
+      router.replace('/');
+    }
+  }, []);
   return (
     <CustomModal>
       <div className=" p-16">

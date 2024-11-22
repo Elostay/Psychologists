@@ -29,7 +29,6 @@ const Psychologists: FC<PsychologistsProps> = () => {
     }
   };
   useEffect(() => {
-    if (loading) return;
     if (!user) {
       router.push('/');
     }
@@ -99,7 +98,7 @@ const Psychologists: FC<PsychologistsProps> = () => {
         break;
     }
   };
-  if (!user) return <Loading />;
+
   return (
     <>
       {psychologistsArray.length > 0 ? (

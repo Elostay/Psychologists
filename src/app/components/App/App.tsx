@@ -18,17 +18,17 @@ interface AppProps {
 
 const App: FC<AppProps> = ({ children }: AppProps) => {
   const [user, loading] = useAuthState(auth);
-  //   const [contentLoaded, setContentLoaded] = useState(false);
+  const [contentLoaded, setContentLoaded] = useState(false);
 
-  //   useEffect(() => {
-  //     if (!loading && user) {
-  //       setContentLoaded(true);
-  //     }
-  //   }, [loading, user]);
+  useEffect(() => {
+    if (!loading) {
+      setContentLoaded(true);
+    }
+  }, [loading, user]);
 
-  //   if (!contentLoaded) {
-  //     return <Loading />;
-  //   }
+  if (!contentLoaded) {
+    return <Loading />;
+  }
   return (
     <ColorThemeProvider>
       <Provider store={store}>

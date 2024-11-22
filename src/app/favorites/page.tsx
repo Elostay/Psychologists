@@ -92,11 +92,15 @@ const Favorites: FC<FavoritesProps> = () => {
     const getUserData = async () => {
       if (currentUser) {
         const userData = await getUserById(currentUser);
-        const userFavoritesId = userData?.favorites;
 
-        const favoriteArray = await getFavorites(userFavoritesId);
+        if (userData?.hasOwnProperty('favorites')) {
+          const userFavoritesId = userData?.favorites;
+          if (userFavoritesId.length > 0) {
+            const favoriteArray = (await getFavorites(userFavoritesId)) || [];
+            setFavoritesArray(favoriteArray);
+          }
+        }
         setIsLoading(false);
-        setFavoritesArray(favoriteArray);
       }
     };
     getUserData();

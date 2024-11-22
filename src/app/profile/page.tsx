@@ -22,7 +22,7 @@ const Profile: FC<ProfileProps> = () => {
     const fetchUserInfo = async () => {
       if (currentUser) {
         const data = await getUserById(currentUser);
-        const meetings = data?.meetings;
+        const meetings = data?.meetings || [];
 
         setMeetings(meetings);
         setIsLoading(false);

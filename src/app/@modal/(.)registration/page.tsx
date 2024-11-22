@@ -1,11 +1,24 @@
 'use client';
 
 import ModalForm from '../../components/Form';
-import * as React from 'react';
+import { useEffect } from 'react';
 
 import CustomModal from '@/app/components/CustomModal';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useRouter } from 'next/navigation';
+import { auth } from '@/firebaseConfig';
 
 export default function RegistrationModal() {
+  const [user] = useAuthState(auth);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+   
+      router.replace('/');
+    }
+  }, []);
+
   return (
     <CustomModal>
       <ModalForm

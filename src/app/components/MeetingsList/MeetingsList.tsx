@@ -7,6 +7,7 @@ import Loading from '../Loading';
 import { auth } from '@/firebaseConfig';
 import { deleteMeeting } from '@/helpers/fetchUser';
 import { Bounce, toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 interface MeetingListProps {
   data: PsychologistMeeting[];
@@ -16,12 +17,18 @@ const MeetingsList: FC<MeetingListProps> = ({ data }) => {
   const [meetings, setMeetings] = useState<PsychologistMeeting[]>(data);
 
   const currentUser = auth.currentUser?.uid;
+  const router = useRouter();
 
   const handleCancelMeeting = async (id: string) => {
     if (currentUser) {
-      setMeetings(prevMeetings =>
-        prevMeetings.filter(meeting => meeting.id !== id)
-      );
+      setMeetings(prevMeetings => {
+        const filteredMeetings = prevMeetings.filter(
+          meeting => meeting.id !== id
+        );
+        if (filteredMeetings.length === 0) router.push('/psychologists');
+
+        return filteredMeetings;
+      });
       await deleteMeeting(currentUser, id);
 
       toast.info('Meeting was canceled', {

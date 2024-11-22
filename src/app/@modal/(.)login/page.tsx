@@ -15,7 +15,7 @@ export default function LoginModal() {
 
   useEffect(() => {
     if (user) {
-      router.push('/');
+      router.replace('/');
     }
   }, []);
   return (

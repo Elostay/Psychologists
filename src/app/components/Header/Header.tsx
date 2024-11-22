@@ -22,6 +22,7 @@ import {
   changeTheme,
   useTheme,
 } from '../ColorThemeProvider/ColorThemeProvider';
+import Loading from '../Loading';
 
 interface HeaderProps {}
 
@@ -38,6 +39,7 @@ const Header: FC<HeaderProps> = () => {
   const [openModal, setOpenModal] = useState(false);
   const [username, setUsername] = useState('');
   const isSmScreen = useMediaQuery('(min-width: 566px)');
+  const [contentLoaded, setContentLoaded] = useState(false);
 
   const [user, loading] = useAuthState(auth);
 
@@ -76,18 +78,21 @@ const Header: FC<HeaderProps> = () => {
   };
 
   useEffect(() => {
-    if (loading) return;
     const getUserData = async () => {
       if (currentUser) {
         const userData = await getUserById(currentUser);
         const username = userData?.name;
 
         setUsername(username);
+        setContentLoaded(true);
       }
     };
     getUserData();
-  }, [currentUser, loading]);
+  }, [currentUser, loading, contentLoaded]);
 
+  if (currentUser && !contentLoaded) {
+    return <Loading />;
+  }
   const style = {
     position: 'absolute',
     top: '50%',
