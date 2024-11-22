@@ -156,7 +156,7 @@ const ModalForm: FC<FormProps> = ({
       {isRegistration && (
         <div>
           <div className="mb-5 text-red-500">
-            <p>Real mail is NOT required Real </p>
+            <p>Real mail is NOT required </p>
             <p>Real password is NOT required</p>
           </div>
           <div className="opacity-50 mb-10">
