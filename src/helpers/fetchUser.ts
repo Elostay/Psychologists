@@ -4,6 +4,7 @@ import { child, get, getDatabase, ref } from 'firebase/database';
 import {
   arrayRemove,
   arrayUnion,
+  deleteField,
   doc,
   getDoc,
   updateDoc,
@@ -106,7 +107,7 @@ const getColorTheme = async (currentUser: string) => {
   }
 };
 
-export const createMeetings = async (
+const createMeetings = async (
   currentUser: string,
   psychologist: PsychologistMeeting
 ) => {
@@ -153,10 +154,34 @@ export const createMeetings = async (
   }
 };
 
+const deleteMeeting = async (currentUser: string, psychologistId: string) => {
+  if (currentUser) {
+    try {
+      const userDocRef = doc(db, 'users', currentUser);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+
+        const meetings = userData.meetings || [];
+
+        const updatedMeetings = meetings.filter(
+          (meeting: { id: string }) => meeting.id !== psychologistId
+        );
+
+        await updateDoc(userDocRef, { meetings: updatedMeetings });
+      }
+    } catch (error) {
+      console.log('Unable delete meeting', error);
+    }
+  }
+};
 export {
   getUserById,
   toggleFavorite,
   getFavorites,
+  deleteMeeting,
   //   updateColorTheme,
+  createMeetings,
   getColorTheme,
 };

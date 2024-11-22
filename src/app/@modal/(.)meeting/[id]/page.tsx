@@ -73,21 +73,18 @@ export default function MeetingModal() {
 
     const psychologist = {
       psycologName: name,
-      avatar_url,
+      avatar_url: avatar_url || '',
       price_per_hour,
       rating,
       specialization,
-      id: psycologId,
+      id: psycologId || '',
       meetingTime: convertedMeetingTime,
       username,
       comment,
       email,
       phone,
     };
-    console.log('💖 ~ MeetingModal ~ psychologist:', psychologist);
-    //!FIXME
-    //!FIXME
-    //!FIXME
+
     if (currentUser) await createMeetings(currentUser, psychologist);
     router.back();
     resetForm();

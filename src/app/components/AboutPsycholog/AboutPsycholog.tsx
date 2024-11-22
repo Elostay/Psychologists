@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 interface AboutPsychologProps {
   category: string;
-  value: string;
+  value: string | null;
 }
 
 const AboutPsycholog: FC<AboutPsychologProps> = ({ category, value }) => {

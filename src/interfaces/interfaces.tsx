@@ -1,3 +1,5 @@
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+
 export interface PsychologistReviews {
   reviewer: string;
   rating: number;
@@ -26,11 +28,11 @@ export interface SvgProps {
 
 export interface PsychologistMeeting {
   psycologName: string | null;
-  avatar_url: string | null;
+  avatar_url: string | StaticImport;
   price_per_hour: string | null;
   rating: string | null;
   specialization: string | null;
-  id: string | null;
+  id: string;
   meetingTime: string | undefined;
   username: string | null;
   comment: string | null;

@@ -15,7 +15,7 @@ import { auth } from '@/firebaseConfig';
 interface AppProps {
   children: ReactNode;
 }
-//?  add user profile where will show appointment, add if u already have an appointment - u cant do it in the same time. must be diference 1 hour
+//?  add responsive user profile, add if u already have an appointment - u cant do it in the same time. must be diference 1 hour, button profile doesnt work
 const App: FC<AppProps> = ({ children }: AppProps) => {
   const [user, loading] = useAuthState(auth);
   const [contentLoaded, setContentLoaded] = useState(false);

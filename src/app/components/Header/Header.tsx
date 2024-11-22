@@ -18,12 +18,10 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { getUserById } from '@/helpers/fetchUser';
-
 import {
   changeTheme,
   useTheme,
 } from '../ColorThemeProvider/ColorThemeProvider';
-import Loading from '../Loading';
 
 interface HeaderProps {}
 
