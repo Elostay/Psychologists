@@ -6,11 +6,12 @@ import { Psychologist } from '@/interfaces/interfaces';
 import PsychologistsList from '../components/PsychologistsList';
 import CustomSelect from '../components/CustomSelect';
 import Loading from '../components/Loading/Loading';
-import usePaginatedData from '@/helpers/fetchData';
+import usePaginatedData from '@/api/fetchPsychologistsData';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebaseConfig';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '../components/ColorThemeProvider/ColorThemeProvider';
+import ScrollToTopButton from '../components/ScrollToUpButton';
 interface PsychologistsProps {}
 
 const Psychologists: FC<PsychologistsProps> = () => {
@@ -119,6 +120,7 @@ const Psychologists: FC<PsychologistsProps> = () => {
               </Button>
             )}
           </div>
+          <ScrollToTopButton />
         </div>
       ) : (
         <Loading />

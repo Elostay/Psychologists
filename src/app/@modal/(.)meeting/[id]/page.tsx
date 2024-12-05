@@ -10,7 +10,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Bounce, toast } from 'react-toastify';
 import { useTheme } from '@/app/components/ColorThemeProvider/ColorThemeProvider';
 import { auth } from '@/firebaseConfig';
-import { createMeetings, getUserById } from '@/helpers/fetchUser';
+import { createMeetings, getUserById } from '@/api/fetchUser';
 import { useEffect, useState } from 'react';
 import { PsychologistMeeting } from '@/interfaces/interfaces';
 import { uid } from 'uid';

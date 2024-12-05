@@ -15,7 +15,6 @@ const nextConfig = {
       },
     ],
   },
-  reactStrictMode: false,
   images: {
     domains: ['ftp.goit.study'],
   },

@@ -17,7 +17,7 @@ import {
   Tooltip,
   useMediaQuery,
 } from '@mui/material';
-import { getUserById } from '@/helpers/fetchUser';
+import { getUserById } from '@/api/fetchUser';
 import {
   changeTheme,
   useTheme,

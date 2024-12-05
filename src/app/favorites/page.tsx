@@ -5,7 +5,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebaseConfig';
 import { useRouter } from 'next/navigation';
 import Loading from '../components/Loading/Loading';
-import { getFavorites, getUserById } from '@/helpers/fetchUser';
+import { getFavorites, getUserById } from '@/api/fetchUser';
 import PsychologistsList from '../components/PsychologistsList';
 import { Psychologist } from '@/interfaces/interfaces';
 import CustomSelect from '../components/CustomSelect';

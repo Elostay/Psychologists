@@ -8,7 +8,7 @@ import AboutPsycholog from '../AboutPsycholog';
 import ReviewsList from '../ReviewsList';
 import Button from '@/app/components/Button';
 import { usePathname, useRouter } from 'next/navigation';
-import { getUserById, toggleFavorite } from '@/helpers/fetchUser';
+import { getUserById, toggleFavorite } from '@/api/fetchUser';
 import { auth } from '@/firebaseConfig';
 import { useTheme } from '../ColorThemeProvider/ColorThemeProvider';
 

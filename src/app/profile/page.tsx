@@ -1,7 +1,7 @@
 'use client';
 
 import { auth } from '@/firebaseConfig';
-import { getUserById } from '@/helpers/fetchUser';
+import { getUserById } from '@/api/fetchUser';
 import { PsychologistMeeting } from '@/interfaces/interfaces';
 import { FC, useEffect, useState } from 'react';
 import MeetingsList from '../components/MeetingsList';
